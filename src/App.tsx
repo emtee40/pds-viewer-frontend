@@ -1,4 +1,3 @@
-import 'isomorphic-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Route, Switch} from 'react-router';
