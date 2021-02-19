@@ -3,7 +3,12 @@ import {Container} from "react-bootstrap";
 
 const MainPage = () => (
     <Container>
-        {"TODO: Add help :)"}
+        <p>You can use this application to browse the NASA JPL PDS archive using a single page app that also supports
+            deeplinking.</p>
+        <p>The main advantage is that (most) images are rendered automatically instead of requiring the user to
+            explicitly selecting the output mode or using the webifiable links.</p>
+        <p>Additionally due to the way React works, the downloaded folders/files are cached until a refresh occurs so
+            revisiting places works faster because there is no need for an additional request.</p>
     </Container>
 );
 

@@ -4,7 +4,8 @@
     "description": "Planetary Data System Frontend",
     "main": "index.js",
     "scripts": {
-        "start": "npx parcel-bundler src/index.html",
+        "start": "parcel src/index.html",
+        "build": "parcel build src/index.html",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Lukas Fülling (lukas@k40s.net)",
@@ -12,6 +13,7 @@
     "devDependencies": {
         "@babel/preset-react": "^7.12.13",
         "@babel/preset-typescript": "^7.12.16",
+        "@primer/octicons-react": "^12.0.0",
         "@testing-library/jest-dom": "^5.11.9",
         "@testing-library/react": "^11.2.5",
         "@types/i18n-js": "^3.8.0",
@@ -42,5 +44,8 @@
         "react-router-dom": "^5.2.0",
         "sass": "^1.32.7",
         "typescript": "^4.1.5"
+    },
+    "dependencies": {
+        "assets": "^3.0.1"
     }
 }

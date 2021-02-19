@@ -1,0 +1,195 @@
+var helpers = require("../../node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+try {
+  var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+  _parcelHelpers.defineInteropFlag(exports);
+  var _react = require('react');
+  var _reactDefault = _parcelHelpers.interopDefault(_react);
+  var _Loader = require("./Loader");
+  var _LoaderDefault = _parcelHelpers.interopDefault(_Loader);
+  var _reactBootstrap = require("react-bootstrap");
+  var _fileContentsTextFile = require("./file-contents/TextFile");
+  var _fileContentsTextFileDefault = _parcelHelpers.interopDefault(_fileContentsTextFile);
+  var _fileContentsImageFile = require("./file-contents/ImageFile");
+  var _fileContentsImageFileDefault = _parcelHelpers.interopDefault(_fileContentsImageFile);
+  var _jsxFileName = "/Users/lerk/workspace/pds-viewer/src/components/FileContent.tsx";
+  const FileContent = ({path, metadata, webifiable, selectedFormat}) => {
+    const [fileContent, setFileContent] = _react.useState(undefined);
+    const [error, setError] = _react.useState(false);
+    const apiUrl = 'https://pds-imaging.jpl.nasa.gov/w10n' + (path.startsWith("/") ? path : '/' + path);
+    const useJson = metadata !== undefined || webifiable;
+    _react.useEffect(() => {
+      fetch(apiUrl + (useJson ? '/?output=json' : '')).then(function (response) {
+        if (response.status !== 200) {
+          setError(true);
+          throw new Error("Bad response from server for path: '" + path + "'!");
+        }
+        return response.text().then(text => {
+          return new Promise(res => {
+            try {
+              const json = JSON.parse(text);
+              res(json);
+            } catch (e) {
+              console.log("Error parsing as JSON, using Blob...", e);
+              res({
+                contentType: response.headers.get("Content-Type") || 'text/plain',
+                raw: text
+              });
+            }
+          });
+        });
+      }).then(function (content) {
+        setFileContent(content);
+      });
+    }, []);
+    if (error) {
+      return (
+        /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Alert, {
+          variant: 'danger',
+          __self: undefined,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 54,
+            columnNumber: 13
+          }
+        }, /*#__PURE__*/_reactDefault.default.createElement("p", {
+          __self: undefined,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 55,
+            columnNumber: 17
+          }
+        }, "There was an error loading the requested file!"), /*#__PURE__*/_reactDefault.default.createElement("p", {
+          __self: undefined,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 56,
+            columnNumber: 17
+          }
+        }, "You can try ", /*#__PURE__*/_reactDefault.default.createElement("a", {
+          href: apiUrl,
+          __self: undefined,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 56,
+            columnNumber: 32
+          }
+        }, "opening the file directly"), "."))
+      );
+    }
+    if (!fileContent) {
+      return (
+        /*#__PURE__*/_reactDefault.default.createElement(_LoaderDefault.default, {
+          __self: undefined,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 62,
+            columnNumber: 17
+          }
+        })
+      );
+    }
+    if (fileContent.contentType === 'text/plain') {
+      return (
+        /*#__PURE__*/_reactDefault.default.createElement(_fileContentsTextFileDefault.default, {
+          content: fileContent,
+          __self: undefined,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 66,
+            columnNumber: 16
+          }
+        })
+      );
+    }
+    const isImage = typeAttr => {
+      return typeAttr.value === 'imageio.vicario' || typeAttr.value === 'imageio';
+    };
+    if (fileContent.w10n) {
+      const typeAttr = fileContent.w10n.find(e => e.name === 'type');
+      if (isImage(typeAttr) && metadata) {
+        if (Array.isArray(metadata)) {
+          const identificationData = metadata.find(d => d.COMMENT && d.COMMENT.find(c => c === '/* IDENTIFICATION DATA ELEMENTS */'));
+          console.log('ID Data:', identificationData);
+          const alt = identificationData ? identificationData.INSTRUMENT_NAME + ' (' + identificationData.MISSION_NAME + ', ' + identificationData.LOCAL_MEAN_SOLAR_TIME + ')' : path;
+          return (
+            /*#__PURE__*/_reactDefault.default.createElement(_fileContentsImageFileDefault.default, {
+              selectedFormat: selectedFormat,
+              alt: alt,
+              path: path,
+              __self: undefined,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 81,
+                columnNumber: 25
+              }
+            })
+          );
+        } else {
+          return (
+            /*#__PURE__*/_reactDefault.default.createElement(_fileContentsImageFileDefault.default, {
+              selectedFormat: selectedFormat,
+              alt: path,
+              path: path,
+              __self: undefined,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 83,
+                columnNumber: 25
+              }
+            })
+          );
+        }
+      }
+    }
+    return (
+      /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Alert, {
+        variant: 'warning',
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 89,
+          columnNumber: 9
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement("p", {
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 90,
+          columnNumber: 13
+        }
+      }, "The file type ", /*#__PURE__*/_reactDefault.default.createElement("code", {
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 90,
+          columnNumber: 30
+        }
+      }, fileContent.contentType), " is currently not supported!"), /*#__PURE__*/_reactDefault.default.createElement("p", {
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 91,
+          columnNumber: 13
+        }
+      }, "You can still ", /*#__PURE__*/_reactDefault.default.createElement("a", {
+        href: apiUrl,
+        target: '_blank',
+        rel: 'noopener noreferrer nofollow',
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 91,
+          columnNumber: 30
+        }
+      }, "download the file"), "!"))
+    );
+  };
+  exports.default = FileContent;
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}

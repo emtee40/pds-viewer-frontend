@@ -1,10 +1,18 @@
+@import "~bootstrap/scss/_functions.scss";
+@import "~bootstrap/scss/_variables.scss";
 @import "~bootstrap/scss/bootstrap";
 
-body {
-  background-color: #fff;
-  font-family: sans-serif;
-  padding-top: $navbar-brand-height + ($navbar-brand-padding-y * 8);
-}
+@import "theme-bright";
+@import "theme-dark";
 
 @import "components/loader";
 @import "components/folder-content";
+@import "components/file-content";
+
+button.btn:hover a {
+  color: #fff;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

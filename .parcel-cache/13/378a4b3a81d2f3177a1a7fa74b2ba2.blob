@@ -1,0 +1,54 @@
+var helpers = require("../../../node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+try {
+  var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+  _parcelHelpers.defineInteropFlag(exports);
+  var _react = require('react');
+  var _reactDefault = _parcelHelpers.interopDefault(_react);
+  var _Loader = require("../Loader");
+  var _LoaderDefault = _parcelHelpers.interopDefault(_Loader);
+  var _jsxFileName = "/Users/lerk/workspace/pds-viewer/src/components/file-contents/TextFile.tsx";
+  const TextFile = ({content}) => {
+    const [fileText, setFileText] = _react.useState(undefined);
+    if (content.contentType !== 'text/plain') {
+      throw new Error("Invalid file type! Expected: 'text/plain', got: '" + content.contentType + "'");
+    }
+    _react.useEffect(() => {
+      if (content.raw.text) {
+        content.raw.text().then(text => setFileText(text));
+      } else {
+        setFileText(content.raw);
+      }
+    }, []);
+    if (!fileText) {
+      return (
+        /*#__PURE__*/_reactDefault.default.createElement(_LoaderDefault.default, {
+          __self: undefined,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 28,
+            columnNumber: 17
+          }
+        })
+      );
+    }
+    return (
+      /*#__PURE__*/_reactDefault.default.createElement("pre", {
+        className: 'text-content',
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 32,
+          columnNumber: 9
+        }
+      }, fileText)
+    );
+  };
+  exports.default = TextFile;
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}

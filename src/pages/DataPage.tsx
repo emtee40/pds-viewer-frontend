@@ -1,17 +1,19 @@
 import React, {FunctionComponent} from 'react';
-import {useLocation, useParams, useRouteMatch} from "react-router";
+import {useLocation} from "react-router";
 import {Breadcrumb, Container} from "react-bootstrap";
 import FolderContent from "../components/FolderContent";
 
-type Props = {}
+type Props = {
+    selectedFormat: string,
+}
 
-const DataPage: FunctionComponent<Props> = () => {
+const DataPage: FunctionComponent<Props> = ({selectedFormat}: Props) => {
     const location = useLocation();
 
-    const currentPath = location.pathname.replace(/\/data\//, '');
+    const currentPath = location.pathname.replace(/\/data/, '');
 
     const splitPath = currentPath.split('/');
-    console.log(location);
+    splitPath.splice(0, 1); // remove first "/"
 
     function buildPath(idx, pathElem) {
         let fullPath = '/data/';
@@ -27,14 +29,20 @@ const DataPage: FunctionComponent<Props> = () => {
         return (
             <Breadcrumb.Item key={idx} href={href} active={href === location.pathname}>{pathElem}</Breadcrumb.Item>
         );
-    })
+    });
+
+    const isOnPDSRoot = (): boolean => {
+        return ('/data/' === location.pathname)
+            || ('/data' === location.pathname);
+    }
 
     return (
         <Container>
             <Breadcrumb>
+                <Breadcrumb.Item href={'/data/'} active={isOnPDSRoot()}>PDS Root</Breadcrumb.Item>
                 {breadcrumbs}
             </Breadcrumb>
-            <FolderContent activeKey={location.hash} path={currentPath}/>
+            <FolderContent selectedFormat={selectedFormat} activeKey={location.hash} path={currentPath}/>
         </Container>
     );
 }

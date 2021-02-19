@@ -1,5 +1,4 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {prepareDataForValidation} from "formik";
 import Loader from "../Loader";
 
 type Props = {
@@ -18,7 +17,11 @@ const TextFile: FunctionComponent<Props> = ({content}: Props) => {
     }
 
     useEffect(() => {
-        content.raw.text().then((text) => setFileText(text));
+        if(content.raw.text) {
+            content.raw.text().then((text) => setFileText(text));
+        } else {
+            setFileText(content.raw);
+        }
     }, []);
 
     if(!fileText) {
@@ -26,7 +29,7 @@ const TextFile: FunctionComponent<Props> = ({content}: Props) => {
     }
 
     return (
-        <pre>{fileText}</pre>
+        <pre className={'text-content'}>{fileText}</pre>
     );
 }
 

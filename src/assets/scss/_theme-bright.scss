@@ -1,0 +1,8 @@
+@import "~bootstrap/scss/_functions.scss";
+@import "~bootstrap/scss/_variables.scss";
+
+body.app-theme-bright {
+  background-color: $light;
+  font-family: sans-serif;
+  padding-top: $navbar-brand-height + ($navbar-brand-padding-y * 8);
+}

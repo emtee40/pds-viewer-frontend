@@ -19,6 +19,7 @@ const Loader: FunctionComponent<Props> = () => {
                 <div/>
                 <div/>
             </div>
+            <p>Fetching PDS data...</p>
         </div>
     );
 }

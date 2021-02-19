@@ -1,0 +1,63 @@
+@import "~bootstrap/scss/_functions.scss";
+@import "~bootstrap/scss/_variables.scss";
+
+body.app-theme-dark {
+  background-color: darken($dark, 8);
+  color: #fff;
+  font-family: sans-serif;
+  padding-top: $navbar-brand-height + ($navbar-brand-padding-y * 8);
+
+  #loader {
+    .loading-spinner div:after {
+      background-color: $light;
+    }
+  }
+
+  .breadcrumb {
+    background-color: rgba(255, 255, 255, 0.1);
+
+    a {
+      color: lighten($primary, 10);
+      text-decoration: none;
+
+      &:hover, &:focus, &:active {
+        color: lighten($primary, 20);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  a {
+    &.dropdown-item,
+    &.dropdown-toggle.nav-link {
+      text-decoration: none;
+    }
+  }
+
+  .dropdown-menu.show {
+    background-color: $dark;
+    border-color: lighten($dark, 20);
+
+    .dropdown-item {
+      color: $light;
+
+      &:hover, &:focus, &.active, &:active {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  .list-group-item {
+    background-color: transparent;
+    color: $light;
+    border-color: darken($light, 52);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    small.text-muted {
+      color: darken($light, 20) !important;
+    }
+  }
+}

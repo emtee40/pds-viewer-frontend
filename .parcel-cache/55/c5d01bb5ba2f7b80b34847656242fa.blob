@@ -1,0 +1,46 @@
+var helpers = require("../../node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+try {
+  var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+  _parcelHelpers.defineInteropFlag(exports);
+  var _react = require('react');
+  var _reactDefault = _parcelHelpers.interopDefault(_react);
+  var _reactBootstrap = require("react-bootstrap");
+  var _jsxFileName = "/Users/lerk/workspace/pds-viewer/src/pages/HelpPage.tsx";
+  const MainPage = () => /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Container, {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 5,
+      columnNumber: 5
+    }
+  }, /*#__PURE__*/_reactDefault.default.createElement("p", {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 6,
+      columnNumber: 9
+    }
+  }, "You can use this application to browse the NASA JPL PDS archive using a single page app that also supports deeplinking."), /*#__PURE__*/_reactDefault.default.createElement("p", {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 8,
+      columnNumber: 9
+    }
+  }, "The main advantage is that (most) images are rendered automatically instead of requiring the user to explicitly selecting the output mode or using the webifiable links."), /*#__PURE__*/_reactDefault.default.createElement("p", {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 10,
+      columnNumber: 9
+    }
+  }, "Additionally due to the way React works, the downloaded folders/files are cached until a refresh occurs so revisiting places works faster because there is no need for an additional request."));
+  exports.default = MainPage;
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
