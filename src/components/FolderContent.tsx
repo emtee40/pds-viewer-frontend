@@ -62,9 +62,9 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
         return (
             <ListGroup.Item className={'folder-content-item'} key={idx} action
                             href={buildHref(node)}>
-                <span>
+                <span className={'name'}>
                     <FileDirectoryIcon verticalAlign={'text-top'}/>{' '}
-                    <span className={'name'}>{node.name}</span>
+                    <span>{node.name}</span>
                 </span>
                 {mTime && <small className={'text-muted'}>{mTime.value}</small>}
             </ListGroup.Item>
@@ -92,9 +92,9 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
         return (
             <ListGroup.Item className={'folder-content-item'} key={idx} action
                             href={href}>
-                <span>
+                <span className={'name'}>
                     {fileIcon}{' '}
-                    <span className={'name'}>{leaf.name}</span>
+                    <span>{leaf.name}</span>
                 </span>
                 <span className={'details'}>
                     {size && <small className={'text-muted'}>{size.value + ' bytes'}</small>}
