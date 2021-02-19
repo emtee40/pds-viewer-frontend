@@ -2,7 +2,7 @@ import React, {FunctionComponent, useEffect, useState} from 'react';
 import Loader from "./Loader";
 import {Alert, Col, Container, ListGroup, Row, Tab} from "react-bootstrap";
 import FileContent from "./FileContent";
-import {FileDirectoryFillIcon, FileDirectoryIcon, FileIcon, FileMediaIcon} from "@primer/octicons-react";
+import {FileDirectoryIcon, FileIcon, FileMediaIcon} from "@primer/octicons-react";
 
 type Props = {
     path: string,
