@@ -3,6 +3,7 @@ import Loader from "./Loader";
 import {Alert} from "react-bootstrap";
 import TextFile from "./file-contents/TextFile";
 import ImageFile from "./file-contents/ImageFile";
+import {API_URL} from "../App";
 
 type Props = {
     path: string,
@@ -17,7 +18,7 @@ const FileContent: FunctionComponent<Props> = ({path, metadata, webifiable, sele
 
     const [error, setError] = useState(false);
 
-    const apiUrl = 'https://pds-imaging.jpl.nasa.gov/w10n' + (path.startsWith("/") ? path : '/' + path);
+    const apiUrl = API_URL + (path.startsWith("/") ? path : '/' + path);
 
     const useJson = (metadata !== undefined) || webifiable;
 

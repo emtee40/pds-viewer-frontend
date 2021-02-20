@@ -3,6 +3,7 @@ import Loader from "./Loader";
 import {Alert, Col, Container, ListGroup, OverlayTrigger, Row, Tab, Tooltip} from "react-bootstrap";
 import FileContent from "./FileContent";
 import {FileDirectoryIcon, FileIcon, FileMediaIcon} from "@primer/octicons-react";
+import {API_URL} from "../App";
 
 type Props = {
     path: string,
@@ -15,7 +16,7 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
     const [folderContent, setFolderContent] = useState(undefined);
     const [error, setError] = useState(false);
 
-    const apiUrl = 'https://pds-imaging.jpl.nasa.gov/w10n' + (path === '/' ? '' : path) + '/?output=json';
+    const apiUrl = API_URL + (path === '/' ? '' : path) + '/?output=json';
 
     useEffect(() => {
         fetch(apiUrl)

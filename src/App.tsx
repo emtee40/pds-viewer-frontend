@@ -8,6 +8,8 @@ import DataPage from "./pages/DataPage";
 import HelpPage from "./pages/HelpPage";
 import Navbar from "./components/Navbar";
 
+export const API_URL = "https://pds-imaging.jpl.nasa.gov/w10n";
+
 const App = () => {
 
     const getInitialTheme = (): string => {
