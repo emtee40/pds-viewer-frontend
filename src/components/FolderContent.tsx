@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import Loader from "./Loader";
-import {Alert, Col, Container, ListGroup, Row, Tab} from "react-bootstrap";
+import {Alert, Col, Container, ListGroup, OverlayTrigger, Row, Tab, Tooltip} from "react-bootstrap";
 import FileContent from "./FileContent";
 import {FileDirectoryIcon, FileIcon, FileMediaIcon} from "@primer/octicons-react";
 
@@ -60,14 +60,22 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
     const nodeItems = folderContent.nodes.map((node, idx) => {
         const mTime = node.attributes.find((attr) => attr.name === 'mtime');
         return (
-            <ListGroup.Item className={'folder-content-item'} key={idx} action
-                            href={buildHref(node)}>
+            <OverlayTrigger
+                key={idx}
+                placement={'auto'}
+                overlay={
+                    <Tooltip id={'node-' + idx}>{node.name}</Tooltip>
+                }
+            >
+                <ListGroup.Item className={'folder-content-item'} key={idx} action
+                                href={buildHref(node)}>
                 <span className={'name'}>
-                    <FileDirectoryIcon verticalAlign={'text-top'}/>{' '}
+                    <FileDirectoryIcon className={'file-icon'} verticalAlign={'text-top'}/>{' '}
                     <span>{node.name}</span>
                 </span>
-                {mTime && <small className={'text-muted'}>{mTime.value}</small>}
-            </ListGroup.Item>
+                    {mTime && <small className={'text-muted'}>{mTime.value}</small>}
+                </ListGroup.Item>
+            </OverlayTrigger>
         );
     });
 
@@ -86,10 +94,17 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
         const href = (webifiable ? webifiableHref : fileViewHref);
 
         const fileIcon = (webifiable &&
-            <FileMediaIcon verticalAlign={'text-top'}/> ||
-            <FileIcon verticalAlign={'text-top'}/>)
+            <FileMediaIcon className={'file-icon'} verticalAlign={'text-top'}/> ||
+            <FileIcon className={'file-icon'} verticalAlign={'text-top'}/>)
 
         return (
+            <OverlayTrigger
+                key={idx}
+                placement={'auto'}
+                overlay={
+                    <Tooltip id={'leaf-' + idx}>{leaf.name}</Tooltip>
+                }
+            >
             <ListGroup.Item className={'folder-content-item'} key={idx} action
                             href={href}>
                 <span className={'name'}>
@@ -101,6 +116,7 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
                     {mTime && <small className={'text-muted'}>{mTime.value}</small>}
                 </span>
             </ListGroup.Item>
+            </OverlayTrigger>
         );
     });
 

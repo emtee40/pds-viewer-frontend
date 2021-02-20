@@ -15,6 +15,10 @@ a.folder-content-item {
   justify-content: space-between;
   align-items: center;
 
+  .file-icon {
+    margin-right: 8px;
+  }
+
   span.name {
     max-width: 50%;
     text-overflow: ellipsis;
