@@ -7,6 +7,7 @@ import {API_URL} from "../App";
 import {PDSLeaf} from "../types/PDSLeaf";
 import {isLeafWebifiable} from "./FolderContent";
 import {PDSNode} from "../types/PDSNode";
+import {PDSAttribute} from "../types/PDSAttribute";
 
 type Props = {
     path: string,
@@ -41,7 +42,7 @@ const FileContent: FunctionComponent<Props> = ({path, leaf, selectedFormat, fold
                             const json = JSON.parse(text);
                             res(json);
                         } catch (e) {
-                            console.log("Error parsing as JSON, using Blob...", e);
+                            console.warn("Error parsing as JSON, using text...", e);
                             res({
                                 contentType: response.headers.get("Content-Type") || 'text/plain',
                                 raw: text
@@ -72,18 +73,11 @@ const FileContent: FunctionComponent<Props> = ({path, leaf, selectedFormat, fold
         return <TextFile content={fileContent}/>
     }
 
-    const isImage = (typeAttr): boolean => {
-        return (typeAttr.value === 'imageio.vicario')
-            || (typeAttr.value === 'imageio');
-    }
-
     if (fileContent.w10n) {
         const typeAttr = fileContent.w10n.find(e => e.name === 'type');
         if (isImage(typeAttr) && metadata) {
             if (Array.isArray(metadata)) {
-                const identificationData = metadata.find(d => d.COMMENT && d.COMMENT.find(c => c === '/* IDENTIFICATION DATA ELEMENTS */'));
-                console.log('ID Data:', identificationData);
-                const alt = (identificationData ? (identificationData.INSTRUMENT_NAME + ' (' + identificationData.MISSION_NAME + ', ' + identificationData.LOCAL_MEAN_SOLAR_TIME + ')') : path)
+                const alt = getImageAlt(metadata, path);
                 return (<ImageFile selectedFormat={selectedFormat} alt={alt} path={filePath}/>);
             } else {
                 console.log(metadata);
@@ -102,3 +96,19 @@ const FileContent: FunctionComponent<Props> = ({path, leaf, selectedFormat, fold
 }
 
 export default FileContent;
+
+const isImage = (typeAttr: PDSAttribute): boolean => {
+    return (typeAttr.value === 'imageio.vicario')
+        || (typeAttr.value === 'imageio');
+}
+
+const getImageAlt = (metadata, path: string): string => {
+    const identificationData = metadata.find(d => d.COMMENT && d.COMMENT.find(c => c === '/* IDENTIFICATION DATA ELEMENTS */'));
+    if (identificationData) {
+        return identificationData.INSTRUMENT_NAME + ' (' +
+            identificationData.MISSION_NAME + ', ' +
+            identificationData.LOCAL_MEAN_SOLAR_TIME + ')';
+    } else {
+        return path; // fallback
+    }
+}

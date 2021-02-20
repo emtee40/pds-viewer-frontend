@@ -16,7 +16,6 @@ const ImageFile: FunctionComponent<Props> = ({path, alt, selectedFormat}: Props)
     const [imageBase64, setImageBase64] = useState(undefined);
     const [error, setError] = useState(false);
 
-
     useEffect(() => {
         fetch(imageUrl)
             .then(function (response) {
