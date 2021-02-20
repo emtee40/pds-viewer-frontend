@@ -10,8 +10,16 @@ import Navbar from "./components/Navbar";
 
 const App = () => {
 
+    const getInitialTheme = (): string => {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+        } else {
+            return 'bright';
+        }
+    }
+
     const [selectedFormat, setSelectedFormat] = useState(() => localStorage.getItem('selectedFormat') || 'gif');
-    const [selectedDesign, setSelectedDesign] = useState(() => localStorage.getItem('selectedDesign') || 'bright');
+    const [selectedDesign, setSelectedDesign] = useState(() => localStorage.getItem('selectedDesign') || getInitialTheme());
 
     if (selectedDesign === 'dark') {
         document.body.classList.add('app-theme-dark');
