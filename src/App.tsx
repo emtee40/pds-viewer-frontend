@@ -13,7 +13,7 @@ const App = () => {
     const [selectedFormat, setSelectedFormat] = useState(() => localStorage.getItem('selectedFormat') || 'gif');
     const [selectedDesign, setSelectedDesign] = useState(() => localStorage.getItem('selectedDesign') || 'bright');
 
-    if(selectedDesign === 'dark') {
+    if (selectedDesign === 'dark') {
         document.body.classList.add('app-theme-dark');
         document.body.classList.remove('app-theme-bright');
     } else {
