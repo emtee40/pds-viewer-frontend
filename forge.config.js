@@ -27,7 +27,7 @@ const config = {
           name: 'pds-viewer',
           authors: 'PDS Viewer Contributors',
           exe: 'pds-viewer.exe',
-          iconUrl: 'https://raw.githubusercontent.com/lfuelling/pds-viewer/fb3087df06c7f268d5dbf06a564eb14c778ecfc0/src/assets/img/favicon.ico',
+          iconUrl: 'https://raw.githubusercontent.com/lfuelling/pds-viewer/d38a2ce1271a7872f8f966f78e5c21b83874207d/src/assets/img/favicon.ico',
           noMsi: true,
           setupExe: `pds-viewer-${version}-win32-${arch}-setup.exe`,
           setupIcon: path.resolve(iconDir, 'favicon.ico'),
