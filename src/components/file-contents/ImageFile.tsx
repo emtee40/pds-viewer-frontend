@@ -18,8 +18,6 @@ const ImageFile: FunctionComponent<Props> = ({path, alt, selectedFormat}: Props)
 
 
     useEffect(() => {
-
-
         fetch(imageUrl)
             .then(function (response) {
                 if (response.status !== 200) {
@@ -36,7 +34,7 @@ const ImageFile: FunctionComponent<Props> = ({path, alt, selectedFormat}: Props)
                     setImageBase64(reader.result.toString());
                 }
             });
-    }, [])
+    }, []);
 
     if (error) {
         return (

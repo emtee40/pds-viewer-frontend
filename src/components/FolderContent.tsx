@@ -4,6 +4,10 @@ import {Alert, Col, Container, ListGroup, OverlayTrigger, Row, Tab, Tooltip} fro
 import FileContent from "./FileContent";
 import {FileDirectoryIcon, FileIcon, FileMediaIcon} from "@primer/octicons-react";
 import {API_URL} from "../App";
+import NodeItem from "./folder-contents/NodeItem";
+import {PDSNode} from "../types/PDSNode";
+import {PDSLeaf} from "../types/PDSLeaf";
+import NodeLeaf from "./folder-contents/NodeLeaf";
 
 type Props = {
     path: string,
@@ -44,120 +48,63 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
         return (<Loader/>);
     }
 
-    if (!folderContent.nodes) {
+    if (!folderContent.nodes && !folderContent.leaves) {
         return (
             <Alert variant={'info'}>
-                There are no nodes!
+                This folder has no content!
             </Alert>
         );
     }
 
-    const buildHref = (node): string => {
-        const prePathDelim = (path.startsWith('/') && path !== '/' ? '' : '/');
-        const pathWithDelim = (path && path !== '/' ? path + '/' : '');
-        return '/data' + prePathDelim + pathWithDelim + node.name;
-    }
+    const nodeItems = folderContent.nodes.map((node, idx) =>
+        (<NodeItem node={node} key={idx} idx={idx} path={path}/>));
 
-    const nodeItems = folderContent.nodes.map((node, idx) => {
-        const mTime = node.attributes.find((attr) => attr.name === 'mtime');
-        return (
-            <OverlayTrigger
-                key={idx}
-                placement={'auto'}
-                overlay={
-                    <Tooltip id={'node-' + idx}>{node.name}</Tooltip>
-                }
-            >
-                <ListGroup.Item className={'folder-content-item'} key={idx} action
-                                href={buildHref(node)}>
-                <span className={'name'}>
-                    <FileDirectoryIcon className={'file-icon'} verticalAlign={'text-top'}/>{' '}
-                    <span>{node.name}</span>
-                </span>
-                    {mTime && <small className={'text-muted'}>{mTime.value}</small>}
-                </ListGroup.Item>
-            </OverlayTrigger>
-        );
-    });
-
-    const isLeafWebifiable = (leaf) => {
-        const webifiableAttr = leaf.attributes.find(a => a.name === 'webifiable');
-        return (webifiableAttr && webifiableAttr.value) == true;
-    }
-
-    const nodeLeaves = folderContent.leaves.map((leaf, idx) => {
-        const mTime = leaf.attributes.find((attr) => attr.name === 'mtime');
-        const size = leaf.attributes.find((attr) => attr.name === 'size');
-        const webifiable = isLeafWebifiable(leaf);
-
-        const webifiableHref = buildHref(leaf);
-        const fileViewHref = '#' + leaf.name;
-        const href = (webifiable ? webifiableHref : fileViewHref);
-
-        const fileIcon = (webifiable &&
-            <FileMediaIcon className={'file-icon'} verticalAlign={'text-top'}/> ||
-            <FileIcon className={'file-icon'} verticalAlign={'text-top'}/>)
-
-        return (
-            <OverlayTrigger
-                key={idx}
-                placement={'auto'}
-                overlay={
-                    <Tooltip id={'leaf-' + idx}>{leaf.name}</Tooltip>
-                }
-            >
-            <ListGroup.Item className={'folder-content-item'} key={idx} action
-                            href={href}>
-                <span className={'name'}>
-                    {fileIcon}{' '}
-                    <span>{leaf.name}</span>
-                </span>
-                <span className={'details'}>
-                    {size && <small className={'text-muted'}>{size.value + ' bytes'}</small>}
-                    {mTime && <small className={'text-muted'}>{mTime.value}</small>}
-                </span>
-            </ListGroup.Item>
-            </OverlayTrigger>
-        );
-    });
+    const nodeLeaves = folderContent.leaves.map((leaf, idx) =>
+        (<NodeLeaf path={path} leaf={leaf} idx={idx} key={idx}/>));
 
     const nodeLeafContents = folderContent.leaves.map((leaf, idx) => {
-        const filePath = (path ? path + '/' : '') + leaf.name;
         const contentKey = '#' + leaf.name;
-        const metadataAttr = folderContent.attributes.find(a => a.name === 'metadata');
-        const webifiable = isLeafWebifiable(leaf);
-
         return (
             <Tab.Pane key={idx} eventKey={contentKey}>
-                <FileContent selectedFormat={selectedFormat} webifiable={webifiable} path={filePath}
-                             metadata={metadataAttr && metadataAttr.value}/>
+                <FileContent folderContent={folderContent}
+                             path={path}
+                             selectedFormat={selectedFormat}
+                             leaf={leaf}/>
             </Tab.Pane>
         );
     });
 
     return (
         <Tab.Container mountOnEnter={true} id="folder-content-tabs" defaultActiveKey={activeKey || '#no-selection'}>
-            <Container>
-                <Row>
-                    <Col lg={4}>
-                        <ListGroup>
-                            {nodeItems}
-                            {nodeLeaves}
-                        </ListGroup>
-                    </Col>
-                    <Col lg={8}>
-                        <Tab.Content>
-                            <Tab.Pane eventKey="#no-selection">
-                                <p>No selection...</p>
-                            </Tab.Pane>
-                            {nodeLeafContents}
-                        </Tab.Content>
-                    </Col>
-                </Row>
-
-            </Container>
+            <Row>
+                <Col lg={4}>
+                    <ListGroup>
+                        {nodeItems}
+                        {nodeLeaves}
+                    </ListGroup>
+                </Col>
+                <Col lg={8}>
+                    <Tab.Content>
+                        <Tab.Pane eventKey="#no-selection">
+                            <p>No selection...</p>
+                        </Tab.Pane>
+                        {nodeLeafContents}
+                    </Tab.Content>
+                </Col>
+            </Row>
         </Tab.Container>
     );
 }
 
 export default FolderContent;
+
+export const buildHref = (path: string, elem: PDSNode | PDSLeaf): string => {
+    const prePathDelim = (path.startsWith('/') && path !== '/' ? '' : '/');
+    const pathWithDelim = (path && path !== '/' ? path + '/' : '');
+    return '/data' + prePathDelim + pathWithDelim + elem.name;
+}
+
+export const isLeafWebifiable = (leaf: PDSLeaf): boolean => {
+    const webifiableAttr = leaf.attributes.find(a => a.name === 'webifiable');
+    return (webifiableAttr && webifiableAttr.value) == true;
+}

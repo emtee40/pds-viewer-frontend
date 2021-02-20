@@ -1,8 +1,10 @@
 import React, {FunctionComponent} from 'react';
 
-type Props = {}
+type Props = {
+    text?: string
+}
 
-const Loader: FunctionComponent<Props> = () => {
+const Loader: FunctionComponent<Props> = ({text}: Props) => {
     return (
         <div id={'loader'}>
             <div className="loading-spinner">
@@ -19,7 +21,7 @@ const Loader: FunctionComponent<Props> = () => {
                 <div/>
                 <div/>
             </div>
-            <p>Fetching PDS data...</p>
+            <p>{text || 'Fetching PDS data...'}</p>
         </div>
     );
 }

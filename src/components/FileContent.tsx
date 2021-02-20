@@ -4,22 +4,27 @@ import {Alert} from "react-bootstrap";
 import TextFile from "./file-contents/TextFile";
 import ImageFile from "./file-contents/ImageFile";
 import {API_URL} from "../App";
+import {PDSLeaf} from "../types/PDSLeaf";
+import {isLeafWebifiable} from "./FolderContent";
+import {PDSNode} from "../types/PDSNode";
 
 type Props = {
     path: string,
-    metadata: [any],
-    webifiable: boolean,
+    leaf: PDSLeaf,
     selectedFormat: string,
+    folderContent: PDSNode,
 }
 
-const FileContent: FunctionComponent<Props> = ({path, metadata, webifiable, selectedFormat}: Props) => {
+const FileContent: FunctionComponent<Props> = ({path, leaf, selectedFormat, folderContent}: Props) => {
 
     const [fileContent, setFileContent] = useState(undefined);
-
     const [error, setError] = useState(false);
 
-    const apiUrl = API_URL + (path.startsWith("/") ? path : '/' + path);
+    const filePath = (path ? path + '/' : '') + leaf.name;
+    const metadata = folderContent.attributes.find(a => a.name === 'metadata');
+    const webifiable = isLeafWebifiable(leaf);
 
+    const apiUrl = API_URL + (filePath.startsWith("/") ? filePath : '/' + filePath);
     const useJson = (metadata !== undefined) || webifiable;
 
     useEffect(() => {
@@ -27,7 +32,7 @@ const FileContent: FunctionComponent<Props> = ({path, metadata, webifiable, sele
             .then(function (response) {
                 if (response.status !== 200) {
                     setError(true);
-                    throw new Error("Bad response from server for path: '" + path + "'!");
+                    throw new Error("Bad response from server for path: '" + filePath + "'!");
                 }
 
                 return response.text().then(text => {
@@ -79,9 +84,10 @@ const FileContent: FunctionComponent<Props> = ({path, metadata, webifiable, sele
                 const identificationData = metadata.find(d => d.COMMENT && d.COMMENT.find(c => c === '/* IDENTIFICATION DATA ELEMENTS */'));
                 console.log('ID Data:', identificationData);
                 const alt = (identificationData ? (identificationData.INSTRUMENT_NAME + ' (' + identificationData.MISSION_NAME + ', ' + identificationData.LOCAL_MEAN_SOLAR_TIME + ')') : path)
-                return (<ImageFile selectedFormat={selectedFormat} alt={alt} path={path}/>);
+                return (<ImageFile selectedFormat={selectedFormat} alt={alt} path={filePath}/>);
             } else {
-                return (<ImageFile selectedFormat={selectedFormat} alt={path} path={path}/>);
+                console.log(metadata);
+                return (<ImageFile selectedFormat={selectedFormat} alt={filePath} path={filePath}/>);
             }
         }
     }
