@@ -1,6 +1,6 @@
 {
     "name": "pds-viewer",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Planetary Data System Frontend",
     "main": "electron.js",
     "author": "Lukas Fülling (lukas@k40s.net)",
