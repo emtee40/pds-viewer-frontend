@@ -39,7 +39,7 @@ jobs:
             -   name: Build application
                 run: yarn build
             -   name: Compress release (non-GarbageShell)
-                run: zip -r "PDS-Viewer-${{ matrix.os }}-${{ matrix.architecture }}.zip" "out/make/zip"
+                run: zip -r "PDS-Viewer-${{ matrix.os }}-${{ matrix.architecture }}.zip" "./out/make"
                 if: matrix.os != 'windows-latest'
             -   name: Compress release (GarbageShell)
                 run: Compress-Archive "out/make/zip" "PDS-Viewer-${{ matrix.os }}-${{ matrix.architecture }}.zip"
