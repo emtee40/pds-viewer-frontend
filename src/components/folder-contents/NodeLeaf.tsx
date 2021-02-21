@@ -33,14 +33,18 @@ const NodeLeaf: FunctionComponent<Props> = ({leaf, idx, activeKey, setActiveKey}
                             onClick={() => {
                                 setActiveKey(leaf.name);
                             }}>
-                <span className={'name'}>
-                    {fileIcon}{' '}
-                    <span>{leaf.name}</span>
-                </span>
-                <span className={'details'}>
-                    {size && <small className={'text-muted'}>{size.value + ' bytes'}</small>}
-                    {mTime && <small className={'text-muted'}>{mTime.value}</small>}
-                </span>
+                <div className="details">
+                    <span className={'name'}>
+                        {fileIcon}
+                        {' '}
+                        <span>{leaf.name}</span>
+                    </span>
+                    <span className={'details'}>
+                        {size && <small className={'text-muted'}>{size.value + ' bytes'}</small>}
+                        {' '}
+                        {mTime && <small className={'text-muted'}>{mTime.value}</small>}
+                    </span>
+                </div>
             </ListGroup.Item>
         </OverlayTrigger>
     );

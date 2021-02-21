@@ -23,9 +23,7 @@
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
 
-    a.folder-content-item.list-group-item {
-      display: flex;
-      flex-direction: column;
+    .folder-content-item.list-group-item {
       border-left: none;
       border-right: none;
 
@@ -37,22 +35,25 @@
         border-bottom: none;
       }
 
-      .file-icon {
-        margin-right: 8px;
-      }
-
-      span.name {
-        display: block;
-        width: 100%;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-      }
-
-      span.details {
-        width: 100%;
+      .details {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+
+        span.name {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+
+          .file-icon {
+            margin-right: 8px;
+          }
+        }
+
+        span.details {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        }
       }
 
       &.active {

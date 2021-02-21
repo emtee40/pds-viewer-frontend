@@ -5,4 +5,10 @@ body.app-theme-bright {
   background-color: $light;
   font-family: sans-serif;
   padding-top: $navbar-brand-height + ($navbar-brand-padding-y * 8);
+
+  .list-group-item.active {
+    small {
+      color: #e1e1e1 !important;
+    }
+  }
 }

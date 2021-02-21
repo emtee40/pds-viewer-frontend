@@ -23,11 +23,13 @@ const NodeItem: FunctionComponent<Props> = ({node, idx, path}: Props) => {
         >
             <ListGroup.Item as={Link} className={'folder-content-item'} key={idx} action
                             to={buildHref(path, node)}>
-                <span className={'name'}>
-                    <FileDirectoryIcon className={'file-icon'} verticalAlign={'text-top'}/>{' '}
-                    <span>{node.name}</span>
-                </span>
-                {mTime && <small className={'text-muted'}>{mTime.value}</small>}
+                <div className="details">
+                    <span className={'name'}>
+                        <FileDirectoryIcon className={'file-icon'} verticalAlign={'text-top'}/>{' '}
+                        <span>{node.name}</span>
+                    </span>
+                    {mTime && <small className={'text-muted'}>{mTime.value}</small>}
+                </div>
             </ListGroup.Item>
         </OverlayTrigger>
     );

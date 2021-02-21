@@ -10,7 +10,7 @@ const Footer: FunctionComponent<Props> = ({cached}: Props) => {
 
     useEffect(() => {
         setLocalStorageSize(bytesToHumanReadable(new Blob(Object.values(localStorage)).size))
-    })
+    });
 
     return (
         <Row className={'footer'}>
