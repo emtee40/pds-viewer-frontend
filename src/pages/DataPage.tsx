@@ -8,9 +8,11 @@ type Props = {
     selectedFormat: string,
     cached: boolean,
     setCached: (cached: boolean) => void,
+    imageCached: boolean,
+    setImageCached: (imageCached: boolean) => void,
 }
 
-const DataPage: FunctionComponent<Props> = ({selectedFormat, cached, setCached}: Props) => {
+const DataPage: FunctionComponent<Props> = ({selectedFormat, cached, setCached, imageCached, setImageCached}: Props) => {
     const location = useLocation();
     const history = useHistory();
 
@@ -57,7 +59,7 @@ const DataPage: FunctionComponent<Props> = ({selectedFormat, cached, setCached}:
                 <Breadcrumb.Item href={'/data/'} active={isOnPDSRoot()}>PDS Root</Breadcrumb.Item>
                 {breadcrumbs}
             </Breadcrumb>
-            <FolderContent cached={cached} setCached={setCached} navigateToParent={navigateToParent} selectedFormat={selectedFormat} path={currentPath}/>
+            <FolderContent imageCached={imageCached} setImageCached={setImageCached} cached={cached} setCached={setCached} navigateToParent={navigateToParent} selectedFormat={selectedFormat} path={currentPath}/>
         </Container>
     );
 }

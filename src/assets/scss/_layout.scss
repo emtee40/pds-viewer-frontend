@@ -21,6 +21,13 @@ html, body {
       .row.content {
         height: 100%;
         //margin-top: -4px;
+
+        .file-content {
+          div:not(.toolbar) {
+            max-height: calc(100vh - calc(14.5rem));
+            overflow: scroll;
+          }
+        }
       }
     }
 

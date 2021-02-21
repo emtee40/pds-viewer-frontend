@@ -15,9 +15,11 @@ type Props = {
     navigateToParent: () => void,
     cached: boolean,
     setCached: (cached: boolean) => void,
+    imageCached: boolean,
+    setImageCached: (imageCached: boolean) => void,
 }
 
-const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigateToParent, cached, setCached}: Props) => {
+const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigateToParent, cached, setCached, imageCached, setImageCached}: Props) => {
 
     const [folderContent, setFolderContent] = useState(undefined);
     const [error, setError] = useState(false);
@@ -74,13 +76,14 @@ const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigate
                              selectedFormat={selectedFormat}
                              leaf={leaf}
                              refreshFolderCache={() => refreshCache(apiUrl, path, setFolderContent, setError, setCached)}
-                             navigateToParent={() => navigateToParentFolder(setActiveKey, navigateToParent)}/>
+                             navigateToParent={() => navigateToParentFolder(setActiveKey, navigateToParent)}
+                             imageCached={imageCached} setImageCached={setImageCached} />
             </Tab.Pane>
         );
     });
 
     return (
-        <Tab.Container mountOnEnter={true} id="folder-content-tabs" defaultActiveKey={activeKey}>
+        <Tab.Container unmountOnExit={true} mountOnEnter={true} id="folder-content-tabs" defaultActiveKey={activeKey}>
             <Row className={'content'}>
                 <Col lg={4}>
                     <ListGroup className={'folder-content-list'}>

@@ -5,7 +5,7 @@ import TextFile from "./file-contents/TextFile";
 import ImageFile from "./file-contents/ImageFile";
 import {API_URL} from "../App";
 import {PDSLeaf} from "../types/PDSLeaf";
-import {isLeafWebifiable} from "./FolderContent";
+import FolderContent, {isLeafWebifiable} from "./FolderContent";
 import {PDSNode} from "../types/PDSNode";
 import {PDSAttribute} from "../types/PDSAttribute";
 
@@ -16,6 +16,8 @@ type Props = {
     folderContent: PDSNode,
     refreshFolderCache: () => void,
     navigateToParent: () => void,
+    imageCached: boolean,
+    setImageCached: (imageCached: boolean) => void,
 }
 
 const FileContent: FunctionComponent<Props> = ({
@@ -24,7 +26,9 @@ const FileContent: FunctionComponent<Props> = ({
                                                    selectedFormat,
                                                    folderContent,
                                                    refreshFolderCache,
-                                                   navigateToParent
+                                                   navigateToParent,
+                                                   imageCached,
+                                                   setImageCached
                                                }: Props) => {
 
     const [fileContent, setFileContent] = useState(undefined);
@@ -87,7 +91,8 @@ const FileContent: FunctionComponent<Props> = ({
         const typeAttr = fileContent.w10n.find(e => e.name === 'type');
         if (isImage(typeAttr)) {
             return (<ImageFile navigateToParent={navigateToParent} refreshFolderCache={refreshFolderCache}
-                               fileContent={fileContent} selectedFormat={selectedFormat}/>);
+                               fileContent={fileContent} selectedFormat={selectedFormat}
+                               imageCached={imageCached} setImageCached={setImageCached}/>);
         }
     }
 
