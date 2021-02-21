@@ -68,6 +68,7 @@ const Navbar: FunctionComponent<Props> = ({
                     <NavDropdown title={formatDropdownTitle} id="basic-nav-dropdown">
                         <NavDropdown.Item onClick={() => setNewSelectedFormat("png")}>PNG</NavDropdown.Item>
                         <NavDropdown.Item onClick={() => setNewSelectedFormat("gif")}>GIF</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => setNewSelectedFormat("jpg")}>JPG</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
             </BSNavbar.Collapse>
