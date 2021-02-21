@@ -24,7 +24,7 @@ jobs:
                 architecture:
                     - x64
                     #- aarch64
-        name: Node ${{ matrix.node_version }} - ${{ matrix.architecture }} on ${{ matrix.os }}
+        name: Node ${{ matrix.node_version }} on ${{ matrix.os }} ${{ matrix.architecture }}
         steps:
             -   uses: actions/checkout@v2
             -   name: Setup node
