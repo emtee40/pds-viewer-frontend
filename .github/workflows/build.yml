@@ -39,10 +39,10 @@ jobs:
             -   name: Build application
                 run: yarn build
             -   name: Compress release (non-GarbageShell)
-                run: zip -r "PDS-Viewer-${{ github.ref }}-${{ matrix.os }}-${{ matrix.architecture }}.zip" "out/make/zip"
+                run: zip -r "PDS-Viewer-${{ matrix.os }}-${{ matrix.architecture }}.zip" "out/make/zip"
                 if: matrix.os != 'windows-latest'
             -   name: Compress release (GarbageShell)
-                run: Compress-Archive "out/make/zip" "PDS-Viewer-${{ github.ref }}-${{ matrix.os }}-${{ matrix.architecture }}.zip"
+                run: Compress-Archive "out/make/zip" "PDS-Viewer-${{ matrix.os }}-${{ matrix.architecture }}.zip"
                 if: matrix.os == 'windows-latest'
             -   name: Create release
                 id: create_release
@@ -61,6 +61,6 @@ jobs:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 with:
                     upload_url: ${{ steps.create_release.outputs.upload_url }}
-                    asset_path: ./PDS-Viewer-${{ github.ref }}-${{ matrix.os }}-${{ matrix.architecture }}.zip
-                    asset_name: PDS-Viewer-${{ github.ref }}-${{ matrix.os }}-${{ matrix.architecture }}.zip
+                    asset_path: ./PDS-Viewer-${{ matrix.os }}-${{ matrix.architecture }}.zip
+                    asset_name: PDS-Viewer-${{ matrix.os }}-${{ matrix.architecture }}.zip
                     asset_content_type: application/zip
