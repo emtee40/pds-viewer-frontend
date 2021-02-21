@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import {Route, Switch} from 'react-router';
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter} from "react-router-dom";
 
 import MainPage from "./pages/MainPage";
 import DataPage from "./pages/DataPage";
 import HelpPage from "./pages/HelpPage";
 import Navbar from "./components/Navbar";
 
-export const API_URL = "https://pds-imaging.jpl.nasa.gov/w10n";
+export const API_URL = "https://pds-imaging.jpl.nasa.gov/w10n/";
 
 const App = () => {
 

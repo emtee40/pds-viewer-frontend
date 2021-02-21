@@ -14,9 +14,18 @@ type Props = {
     leaf: PDSLeaf,
     selectedFormat: string,
     folderContent: PDSNode,
+    refreshFolderCache: () => void,
+    navigateToParent: () => void,
 }
 
-const FileContent: FunctionComponent<Props> = ({path, leaf, selectedFormat, folderContent}: Props) => {
+const FileContent: FunctionComponent<Props> = ({
+                                                   path,
+                                                   leaf,
+                                                   selectedFormat,
+                                                   folderContent,
+                                                   refreshFolderCache,
+                                                   navigateToParent
+                                               }: Props) => {
 
     const [fileContent, setFileContent] = useState(undefined);
     const [error, setError] = useState(false);
@@ -70,13 +79,15 @@ const FileContent: FunctionComponent<Props> = ({path, leaf, selectedFormat, fold
     }
 
     if (fileContent.contentType === 'text/plain') {
-        return <TextFile content={fileContent}/>
+        return (<TextFile navigateToParent={navigateToParent} refreshFolderCache={refreshFolderCache}
+                          content={fileContent}/>)
     }
 
     if (fileContent.w10n) {
         const typeAttr = fileContent.w10n.find(e => e.name === 'type');
         if (isImage(typeAttr) && metadata) {
-            return (<ImageFile fileContent={fileContent} selectedFormat={selectedFormat}/>);
+            return (<ImageFile navigateToParent={navigateToParent} refreshFolderCache={refreshFolderCache}
+                               fileContent={fileContent} selectedFormat={selectedFormat}/>);
         }
     }
 

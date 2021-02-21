@@ -1,14 +1,17 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import Loader from "../Loader";
+import Toolbar from "./Toolbar";
 
 type Props = {
     content: {
         raw: Blob,
         contentType: string,
-    }
+    },
+    refreshFolderCache: () => void,
+    navigateToParent: ()=>void,
 }
 
-const TextFile: FunctionComponent<Props> = ({content}: Props) => {
+const TextFile: FunctionComponent<Props> = ({content, refreshFolderCache, navigateToParent}: Props) => {
 
     const [fileText, setFileText] = useState(undefined);
 
@@ -29,7 +32,10 @@ const TextFile: FunctionComponent<Props> = ({content}: Props) => {
     }
 
     return (
-        <pre className={'text-content'}>{fileText}</pre>
+        <div className="file-content">
+            <Toolbar navigateToParent={navigateToParent} refreshFolderCache={refreshFolderCache} imageProps={undefined}/>
+            <pre className={'text-content'}>{fileText}</pre>
+        </div>
     );
 }
 

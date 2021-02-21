@@ -33,7 +33,7 @@ const NodeLeaf: FunctionComponent<Props> = ({path, leaf, idx}: Props) => {
             }
         >
             <ListGroup.Item className={'folder-content-item'} key={idx} action
-                            href={href}>
+                            eventKey={href}>
                 <span className={'name'}>
                     {fileIcon}{' '}
                     <span>{leaf.name}</span>

@@ -7,7 +7,7 @@ const MainPage = () => (
         <h1>Welcome!</h1>
         <p>This is a viewer for the Planetary Data System of NASA JPL.</p>
         <Button variant="outline-primary">
-            <Link to={'/data'}>Start digging...</Link>
+            <Link to={'/data/'}>Start digging...</Link>
         </Button>
     </Container>
 );

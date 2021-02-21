@@ -54,7 +54,7 @@ const Navbar: FunctionComponent<Props> = ({
             <BSNavbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     <Nav.Item>
-                        <NavLink className={'nav-link'} to={'/data'}>Data</NavLink>
+                        <NavLink className={'nav-link'} to={'/data/'}>Data</NavLink>
                     </Nav.Item>
                     <Nav.Item>
                         <NavLink className={'nav-link'} to={'/help'}>Help</NavLink>

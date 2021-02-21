@@ -1,23 +1,30 @@
 
-div.image-file {
+div.file-content {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: flex-start;
-  max-width: 100%;
+
+  .alert {
+    width: 100%;
+  }
+
+  div.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+  }
 
   img.image-content {
     max-width: 90%;
   }
 
-  #image-actions {
-    margin-left: 8px;
+  pre.text-content {
+    padding: 8px;
+    background-color: #eee;
+    border: 1px solid #aaa;
+    border-radius: 5px;
   }
-}
 
-pre.text-content {
-  padding: 8px;
-  background-color: #eee;
-  border: 1px solid #aaa;
-  border-radius: 5px;
 }

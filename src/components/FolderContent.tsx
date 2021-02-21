@@ -1,28 +1,42 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import Loader from "./Loader";
-import {Alert, Col, Container, ListGroup, OverlayTrigger, Row, Tab, Tooltip} from "react-bootstrap";
+import {Alert, Button, Col, Container, ListGroup, OverlayTrigger, Row, Tab, Tooltip} from "react-bootstrap";
 import FileContent from "./FileContent";
-import {FileDirectoryIcon, FileIcon, FileMediaIcon} from "@primer/octicons-react";
+import {FileDirectoryIcon, FileIcon, FileMediaIcon, SyncIcon} from "@primer/octicons-react";
 import {API_URL} from "../App";
 import NodeItem from "./folder-contents/NodeItem";
 import {PDSNode} from "../types/PDSNode";
 import {PDSLeaf} from "../types/PDSLeaf";
 import NodeLeaf from "./folder-contents/NodeLeaf";
+import Toolbar from "./file-contents/Toolbar";
 
 type Props = {
     path: string,
     activeKey?: string,
     selectedFormat: string,
+    navigateToParent: () => void,
 }
 
-const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedFormat}: Props) => {
+const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedFormat, navigateToParent}: Props) => {
+
+    const getCachedPath = (): PDSNode => {
+        const cachedJson = localStorage.getItem('cache-' + (path === '' ? '/' : path));
+        if (cachedJson != null && cachedJson.length > 0) {
+            return JSON.parse(cachedJson);
+        } else {
+            return undefined;
+        }
+    }
 
     const [folderContent, setFolderContent] = useState(undefined);
     const [error, setError] = useState(false);
+    const [cached, setCached] = useState(false);
 
     const apiUrl = API_URL + (path === '/' ? '' : path) + '/?output=json';
 
-    useEffect(() => {
+    const refreshCache = (): void => {
+        setFolderContent(undefined);
+        setError(false);
         fetch(apiUrl)
             .then(function (response) {
                 if (response.status !== 200) {
@@ -33,8 +47,20 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
             })
             .then(function (content) {
                 setFolderContent(content);
+                localStorage.setItem('cache-' + path, JSON.stringify(content));
+                setCached(false);
             });
-    }, []);
+    }
+
+    useEffect(() => {
+        const cached = getCachedPath();
+        if (cached) {
+            setFolderContent(cached);
+            setCached(true);
+        } else {
+            refreshCache();
+        }
+    }, [path]);
 
     if (error) {
         return (
@@ -69,7 +95,9 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
                 <FileContent folderContent={folderContent}
                              path={path}
                              selectedFormat={selectedFormat}
-                             leaf={leaf}/>
+                             leaf={leaf}
+                             refreshFolderCache={refreshCache}
+                             navigateToParent={navigateToParent}/>
             </Tab.Pane>
         );
     });
@@ -86,7 +114,11 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
                 <Col lg={8}>
                     <Tab.Content>
                         <Tab.Pane eventKey="#no-selection">
-                            <p>No selection...</p>
+                            <div className="file-content">
+                                <Toolbar navigateToParent={navigateToParent} refreshFolderCache={refreshCache}
+                                         imageProps={undefined}/>
+                                <Alert variant={'info'}>No file selected...</Alert>
+                            </div>
                         </Tab.Pane>
                         {nodeLeafContents}
                     </Tab.Content>

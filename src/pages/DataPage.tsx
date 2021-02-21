@@ -1,5 +1,6 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import {useLocation} from "react-router";
+import {useHistory} from "react-router-dom";
 import {Breadcrumb, Container} from "react-bootstrap";
 import FolderContent from "../components/FolderContent";
 
@@ -9,11 +10,19 @@ type Props = {
 
 const DataPage: FunctionComponent<Props> = ({selectedFormat}: Props) => {
     const location = useLocation();
+    const history = useHistory();
 
-    const currentPath = location.pathname.replace(/\/data/, '');
+    const [currentPath, setCurrentPath] = useState(location.pathname.replace(/\/data/, ''));
+
+    useEffect(() => {
+        let tempPath = location.pathname.replace(/\/data/, '');
+        if(tempPath.startsWith("/")) {
+            tempPath = tempPath.substring(1);
+        }
+        setCurrentPath(tempPath);
+    }, [location]);
 
     const splitPath = currentPath.split('/');
-    splitPath.splice(0, 1); // remove first "/"
 
     function buildPath(idx, pathElem) {
         let fullPath = '/data/';
@@ -36,13 +45,18 @@ const DataPage: FunctionComponent<Props> = ({selectedFormat}: Props) => {
             || ('/data' === location.pathname);
     }
 
+    const navigateToParent = () => {
+        history.go(-1);
+    }
+
     return (
         <Container>
             <Breadcrumb>
                 <Breadcrumb.Item href={'/data/'} active={isOnPDSRoot()}>PDS Root</Breadcrumb.Item>
                 {breadcrumbs}
             </Breadcrumb>
-            <FolderContent selectedFormat={selectedFormat} activeKey={location.hash} path={currentPath}/>
+            <FolderContent navigateToParent={navigateToParent} selectedFormat={selectedFormat} activeKey={location.hash}
+                           path={currentPath}/>
         </Container>
     );
 }
