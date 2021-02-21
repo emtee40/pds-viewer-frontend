@@ -4,10 +4,10 @@ import {Link} from "react-router-dom";
 
 const MainPage = () => (
     <Container>
-        <h1>Welcome!</h1>
+        <h2>Welcome!</h2>
         <p>This is a viewer for the Planetary Data System of NASA JPL.</p>
-        <Button variant="outline-primary">
-            <Link to={'/data/'}>Start digging...</Link>
+        <Button as={Link} to={'/data/'} variant="outline-primary">
+            Start digging...
         </Button>
     </Container>
 );
