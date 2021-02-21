@@ -1,8 +1,7 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import Loader from "./Loader";
-import {Alert, Button, Col, Container, ListGroup, OverlayTrigger, Row, Tab, Tooltip} from "react-bootstrap";
+import {Alert, Col, ListGroup, Row, Tab} from "react-bootstrap";
 import FileContent from "./FileContent";
-import {FileDirectoryIcon, FileIcon, FileMediaIcon, SyncIcon} from "@primer/octicons-react";
 import {API_URL} from "../App";
 import NodeItem from "./folder-contents/NodeItem";
 import {PDSNode} from "../types/PDSNode";
@@ -14,51 +13,26 @@ type Props = {
     path: string,
     selectedFormat: string,
     navigateToParent: () => void,
+    cached: boolean,
+    setCached: (cached: boolean) => void,
 }
 
-const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigateToParent}: Props) => {
-
-    const getCachedPath = (): PDSNode => {
-        const cachedJson = localStorage.getItem('cache-' + (path === '' ? '/' : path));
-        if (cachedJson != null && cachedJson.length > 0) {
-            return JSON.parse(cachedJson);
-        } else {
-            return undefined;
-        }
-    }
+const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigateToParent, cached, setCached}: Props) => {
 
     const [folderContent, setFolderContent] = useState(undefined);
     const [error, setError] = useState(false);
-    const [cached, setCached] = useState(false);
+
     const [activeKey, setActiveKey] = useState('#no-selection');
 
     const apiUrl = API_URL + (path === '/' ? '' : path) + '/?output=json';
 
-    const refreshCache = (): void => {
-        setFolderContent(undefined);
-        setError(false);
-        fetch(apiUrl)
-            .then(function (response) {
-                if (response.status !== 200) {
-                    setError(true);
-                    throw new Error("Bad response from server for path: '" + path + "'!");
-                }
-                return response.json();
-            })
-            .then(function (content) {
-                setFolderContent(content);
-                localStorage.setItem('cache-' + path, JSON.stringify(content));
-                setCached(false);
-            });
-    }
-
     useEffect(() => {
-        const cached = getCachedPath();
+        const cached = getCachedPath(path);
         if (cached) {
             setFolderContent(cached);
             setCached(true);
         } else {
-            refreshCache();
+            refreshCache(apiUrl, path, setFolderContent, setError, setCached);
         }
     }, [path]);
 
@@ -86,11 +60,6 @@ const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigate
         );
     }
 
-    const navigateToParentFolder = () => {
-        setActiveKey('#no-selection');
-        navigateToParent();
-    }
-
     const nodeItems = folderContent.nodes.map((node, idx) =>
         (<NodeItem node={node} key={idx} idx={idx} path={path}/>));
 
@@ -104,8 +73,8 @@ const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigate
                              path={path}
                              selectedFormat={selectedFormat}
                              leaf={leaf}
-                             refreshFolderCache={refreshCache}
-                             navigateToParent={navigateToParentFolder}/>
+                             refreshFolderCache={() => refreshCache(apiUrl, path, setFolderContent, setError, setCached)}
+                             navigateToParent={() => navigateToParentFolder(setActiveKey, navigateToParent)}/>
             </Tab.Pane>
         );
     });
@@ -123,7 +92,8 @@ const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigate
                     <Tab.Content>
                         <Tab.Pane eventKey="#no-selection" active={activeKey === '#no-selection'}>
                             <div className="file-content">
-                                <Toolbar navigateToParent={navigateToParent} refreshFolderCache={refreshCache}
+                                <Toolbar navigateToParent={navigateToParent}
+                                         refreshFolderCache={() => refreshCache(apiUrl, path, setFolderContent, setError, setCached)}
                                          imageProps={undefined}/>
                                 <Alert variant={'info'}>No file selected...</Alert>
                             </div>
@@ -147,4 +117,41 @@ export const buildHref = (path: string, elem: PDSNode | PDSLeaf): string => {
 export const isLeafWebifiable = (leaf: PDSLeaf): boolean => {
     const webifiableAttr = leaf.attributes.find(a => a.name === 'webifiable');
     return (webifiableAttr && webifiableAttr.value) == true;
+}
+
+const navigateToParentFolder = (setActiveKey: (activeKey: string) => void,
+                                navigateToParent: () => void) => {
+    setActiveKey('#no-selection');
+    navigateToParent();
+}
+
+const refreshCache = (apiUrl: string,
+                      path: string,
+                      setFolderContent: (folderContent: string) => void,
+                      setError: (error: boolean) => void,
+                      setCached: (cached: boolean) => void): void => {
+    setFolderContent(undefined);
+    setError(false);
+    fetch(apiUrl)
+        .then(function (response) {
+            if (response.status !== 200) {
+                setError(true);
+                throw new Error("Bad response from server for path: '" + path + "'!");
+            }
+            return response.json();
+        })
+        .then(function (content) {
+            setFolderContent(content);
+            localStorage.setItem('cache-' + path, JSON.stringify(content));
+            setCached(false);
+        });
+}
+
+const getCachedPath = (path: string): PDSNode => {
+    const cachedJson = localStorage.getItem('cache-' + (path === '' ? '/' : path));
+    if (cachedJson != null && cachedJson.length > 0) {
+        return JSON.parse(cachedJson);
+    } else {
+        return undefined;
+    }
 }

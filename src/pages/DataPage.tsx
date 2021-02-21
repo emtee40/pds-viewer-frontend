@@ -1,15 +1,16 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import {useLocation} from "react-router";
 import {useHistory} from "react-router-dom";
-import {Breadcrumb, Container, Row} from "react-bootstrap";
+import {Breadcrumb, Container} from "react-bootstrap";
 import FolderContent from "../components/FolderContent";
-import Footer from "../components/Footer";
 
 type Props = {
     selectedFormat: string,
+    cached: boolean,
+    setCached: (cached: boolean) => void,
 }
 
-const DataPage: FunctionComponent<Props> = ({selectedFormat}: Props) => {
+const DataPage: FunctionComponent<Props> = ({selectedFormat, cached, setCached}: Props) => {
     const location = useLocation();
     const history = useHistory();
 
@@ -56,7 +57,7 @@ const DataPage: FunctionComponent<Props> = ({selectedFormat}: Props) => {
                 <Breadcrumb.Item href={'/data/'} active={isOnPDSRoot()}>PDS Root</Breadcrumb.Item>
                 {breadcrumbs}
             </Breadcrumb>
-            <FolderContent navigateToParent={navigateToParent} selectedFormat={selectedFormat} path={currentPath}/>
+            <FolderContent cached={cached} setCached={setCached} navigateToParent={navigateToParent} selectedFormat={selectedFormat} path={currentPath}/>
         </Container>
     );
 }

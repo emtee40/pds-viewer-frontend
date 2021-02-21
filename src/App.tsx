@@ -23,6 +23,7 @@ const App = () => {
 
     const [selectedFormat, setSelectedFormat] = useState(() => localStorage.getItem('selectedFormat') || 'gif');
     const [selectedDesign, setSelectedDesign] = useState(() => localStorage.getItem('selectedDesign') || getInitialTheme());
+    const [cached, setCached] = useState(false);
 
     if (selectedDesign === 'dark') {
         document.body.classList.add('app-theme-dark');
@@ -47,14 +48,14 @@ const App = () => {
                     <HelpPage/>
                 </Route>
                 <Route exact path={'/data'}>
-                    <DataPage selectedFormat={selectedFormat}/>
+                    <DataPage cached={cached} setCached={setCached} selectedFormat={selectedFormat}/>
                 </Route>
                 <Route path={'/data/:path'}>
-                    <DataPage selectedFormat={selectedFormat}/>
+                    <DataPage cached={cached} setCached={setCached} selectedFormat={selectedFormat}/>
                 </Route>
                 <Route render={() => <h1>Page not found</h1>}/>
             </Switch>
-            <Footer />
+            <Footer cached={cached} />
         </>
     );
 };

@@ -1,10 +1,16 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import {Row} from "react-bootstrap";
 
-type Props = {}
+type Props = {
+    cached: boolean,
+}
 
-const Footer: FunctionComponent<Props> = () => {
-    const localStorageSize = bytesToHumanReadable(new Blob(Object.values(localStorage)).size);
+const Footer: FunctionComponent<Props> = ({cached}: Props) => {
+    const [localStorageSize, setLocalStorageSize] = useState('');
+
+    useEffect(() => {
+        setLocalStorageSize(bytesToHumanReadable(new Blob(Object.values(localStorage)).size))
+    })
 
     return (
         <Row className={'footer'}>
@@ -12,7 +18,7 @@ const Footer: FunctionComponent<Props> = () => {
                 <span>Cache: {localStorageSize}</span>
             </div>
             <div className="right-side">
-
+                {(cached && 'From Cache') || 'From API'}
             </div>
         </Row>
     );
