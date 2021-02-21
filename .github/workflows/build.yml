@@ -42,7 +42,7 @@ jobs:
                 run: zip -r "PDS-Viewer-${{ matrix.os }}-${{ matrix.architecture }}.zip" "./out/make"
                 if: matrix.os != 'windows-latest'
             -   name: Compress release (GarbageShell)
-                run: Compress-Archive "out/make/zip" "PDS-Viewer-${{ matrix.os }}-${{ matrix.architecture }}.zip"
+                run: Compress-Archive "out/make" "PDS-Viewer-${{ matrix.os }}-${{ matrix.architecture }}.zip"
                 if: matrix.os == 'windows-latest'
             -   name: Create release
                 id: create_release
