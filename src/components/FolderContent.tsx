@@ -8,6 +8,8 @@ import {PDSNode} from "../types/PDSNode";
 import {PDSLeaf} from "../types/PDSLeaf";
 import NodeLeaf from "./folder-contents/NodeLeaf";
 import Toolbar from "./file-contents/Toolbar";
+import {useTranslation} from "react-i18next";
+import {TFunction} from "i18next";
 
 type Props = {
     path: string,
@@ -19,12 +21,20 @@ type Props = {
     setImageCached: (imageCached: boolean) => void,
 }
 
-const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigateToParent, cached, setCached, imageCached, setImageCached}: Props) => {
+const FolderContent: FunctionComponent<Props> = ({
+                                                     path,
+                                                     selectedFormat,
+                                                     navigateToParent,
+                                                     cached,
+                                                     setCached,
+                                                     imageCached,
+                                                     setImageCached
+                                                 }: Props) => {
 
     const [folderContent, setFolderContent] = useState(undefined);
-    const [error, setError] = useState(false);
-
     const [activeKey, setActiveKey] = useState('#no-selection');
+    const [error, setError] = useState(false);
+    const {t} = useTranslation();
 
     const apiUrl = API_URL + (path === '/' ? '' : path) + '/?output=json';
 
@@ -34,14 +44,14 @@ const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigate
             setFolderContent(cached);
             setCached(true);
         } else {
-            refreshCache(apiUrl, path, setFolderContent, setError, setCached);
+            refreshCache(apiUrl, path, setFolderContent, setError, setCached, t);
         }
     }, [path]);
 
     if (error) {
         return (
             <Alert variant={'danger'}>
-                There was an error fetching data from the API!
+                {t('folder.error_fetching')}
             </Alert>
         );
     }
@@ -57,7 +67,7 @@ const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigate
     if (!folderContent.nodes && !folderContent.leaves) {
         return (
             <Alert variant={'info'}>
-                This folder has no content!
+                {t('folder.no_content')}
             </Alert>
         );
     }
@@ -75,9 +85,9 @@ const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigate
                              path={path}
                              selectedFormat={selectedFormat}
                              leaf={leaf}
-                             refreshFolderCache={() => refreshCache(apiUrl, path, setFolderContent, setError, setCached)}
+                             refreshFolderCache={() => refreshCache(apiUrl, path, setFolderContent, setError, setCached, t)}
                              navigateToParent={() => navigateToParentFolder(setActiveKey, navigateToParent)}
-                             imageCached={imageCached} setImageCached={setImageCached} />
+                             imageCached={imageCached} setImageCached={setImageCached}/>
             </Tab.Pane>
         );
     });
@@ -96,9 +106,9 @@ const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigate
                         <Tab.Pane eventKey="#no-selection" active={activeKey === '#no-selection'}>
                             <div className="file-content">
                                 <Toolbar navigateToParent={navigateToParent}
-                                         refreshFolderCache={() => refreshCache(apiUrl, path, setFolderContent, setError, setCached)}
+                                         refreshFolderCache={() => refreshCache(apiUrl, path, setFolderContent, setError, setCached, t)}
                                          imageProps={undefined}/>
-                                <Alert variant={'info'}>No file selected...</Alert>
+                                <Alert variant={'info'}>{t('folder.no_selection')}</Alert>
                             </div>
                         </Tab.Pane>
                         {nodeLeafContents}
@@ -132,14 +142,15 @@ const refreshCache = (apiUrl: string,
                       path: string,
                       setFolderContent: (folderContent: string) => void,
                       setError: (error: boolean) => void,
-                      setCached: (cached: boolean) => void): void => {
+                      setCached: (cached: boolean) => void,
+                      t: TFunction): void => {
     setFolderContent(undefined);
     setError(false);
     fetch(apiUrl)
         .then(function (response) {
             if (response.status !== 200) {
                 setError(true);
-                throw new Error("Bad response from server for path: '" + path + "'!");
+                throw new Error(t('folder.bad_response_for_path') + path + "'!");
             }
             return response.json();
         })

@@ -3,6 +3,7 @@ import {useLocation} from "react-router";
 import {useHistory} from "react-router-dom";
 import {Breadcrumb, Container} from "react-bootstrap";
 import FolderContent from "../components/FolderContent";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     selectedFormat: string,
@@ -15,6 +16,7 @@ type Props = {
 const DataPage: FunctionComponent<Props> = ({selectedFormat, cached, setCached, imageCached, setImageCached}: Props) => {
     const location = useLocation();
     const history = useHistory();
+    const {t} = useTranslation();
 
     const [currentPath, setCurrentPath] = useState(location.pathname.replace(/\/data/, ''));
 
@@ -56,7 +58,7 @@ const DataPage: FunctionComponent<Props> = ({selectedFormat, cached, setCached, 
     return (
         <Container>
             <Breadcrumb>
-                <Breadcrumb.Item href={'/data/'} active={isOnPDSRoot()}>PDS Root</Breadcrumb.Item>
+                <Breadcrumb.Item href={'/data/'} active={isOnPDSRoot()}>{t('data.pds_root')}</Breadcrumb.Item>
                 {breadcrumbs}
             </Breadcrumb>
             <FolderContent imageCached={imageCached} setImageCached={setImageCached} cached={cached} setCached={setCached} navigateToParent={navigateToParent} selectedFormat={selectedFormat} path={currentPath}/>

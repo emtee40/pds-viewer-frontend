@@ -5,9 +5,10 @@ import TextFile from "./file-contents/TextFile";
 import ImageFile from "./file-contents/ImageFile";
 import {API_URL} from "../App";
 import {PDSLeaf} from "../types/PDSLeaf";
-import FolderContent, {isLeafWebifiable} from "./FolderContent";
+import {isLeafWebifiable} from "./FolderContent";
 import {PDSNode} from "../types/PDSNode";
 import {PDSAttribute} from "../types/PDSAttribute";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     path: string,
@@ -33,6 +34,7 @@ const FileContent: FunctionComponent<Props> = ({
 
     const [fileContent, setFileContent] = useState(undefined);
     const [error, setError] = useState(false);
+    const {t} = useTranslation();
 
     const filePath = (path ? path + '/' : '') + leaf.name;
     const metadata = folderContent.attributes.find(a => a.name === 'metadata');
@@ -46,7 +48,7 @@ const FileContent: FunctionComponent<Props> = ({
             .then(function (response) {
                 if (response.status !== 200) {
                     setError(true);
-                    throw new Error("Bad response from server for path: '" + filePath + "'!");
+                    throw new Error(t('folder.bad_response_for_path') + filePath + "'!");
                 }
 
                 return response.text().then(text => {
@@ -55,7 +57,7 @@ const FileContent: FunctionComponent<Props> = ({
                             const json = JSON.parse(text);
                             res(json);
                         } catch (e) {
-                            console.warn("Error parsing as JSON, using text...", e);
+                            console.warn(t('file.error_parsing_json'), e);
                             res({
                                 contentType: response.headers.get("Content-Type") || 'text/plain',
                                 raw: text
@@ -72,8 +74,8 @@ const FileContent: FunctionComponent<Props> = ({
     if (error) {
         return (
             <Alert variant={'danger'}>
-                <p>There was an error loading the requested file!</p>
-                <p>You can try <a href={apiUrl}>opening the file directly</a>.</p>
+                <p>{t('file.error_loading_file')}</p>
+                <p>{t('file.try_download.1')}<a href={apiUrl}>{t('file.try_download.2')}</a>.</p>
             </Alert>
         )
     }
@@ -98,9 +100,17 @@ const FileContent: FunctionComponent<Props> = ({
 
     return (
         <Alert variant={'warning'}>
-            <p>The file type <code>{fileContent.contentType}</code> is currently not supported!</p>
-            <p>You can still <a href={apiUrl} target={'_blank'} rel={'noopener noreferrer nofollow'}>download the
-                file</a>!</p>
+            <p>
+                {t('file.type_not_supported.1')}
+                <code>{fileContent.contentType}</code>
+                {t('file.type_not_supported.2')}
+            </p>
+            <p>
+                {t('file.type_not_supported.3')}
+                <a href={apiUrl} target={'_blank'} rel={'noopener noreferrer nofollow'}>
+                    {t('file.type_not_supported.4')}
+                </a>!
+            </p>
         </Alert>
     );
 }

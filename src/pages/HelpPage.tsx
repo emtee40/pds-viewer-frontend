@@ -1,13 +1,21 @@
 import React from 'react';
+import {useTranslation} from "react-i18next";
 import {Container} from "react-bootstrap";
 
-const HelpPage = () => (
-    <Container>
-        <h2>About</h2>
-        <p>This application is a an explorer-like application intended for browsing the <a href={'https://pds-imaging.jpl.nasa.gov/'}>Planetary Data System</a> of NASA JPL.</p>
-        <p>{'Browsing the PDS is also possible by just using a web browser but due to the responses taking relatively long, it\'s not very comfortable.'}</p>
-        <p>{'This application aims to solve this by caching each response which makes revisiting folders and images much faster because there is actually no request to the PDS unless the requested resource is not yet cached, or the "reload" button is pressed.'}</p>
-    </Container>
-);
+const HelpPage = () => {
+    const {t} = useTranslation();
+    return (
+        <Container>
+            <h2>{t('help.about')}</h2>
+            <p>
+                {t('help.about_text_1')}
+                <a href={'https://pds-imaging.jpl.nasa.gov/'}>{t('help.about_text_2')}</a>
+                {t('help.about_text_3')}
+            </p>
+            <p>{t('help.about_text_4')}</p>
+            <p>{t('help.about_text_5')}</p>
+        </Container>
+    );
+}
 
 export default HelpPage;

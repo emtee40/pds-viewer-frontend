@@ -3,6 +3,7 @@ import {Nav, Navbar as BSNavbar, NavDropdown} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
 import Favicon from '../assets/img/favicon-32x32.png';
 import {FileMediaIcon, MoonIcon, SunIcon} from "@primer/octicons-react";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     setSelectedFormat: (format: string) => void,
@@ -18,6 +19,8 @@ const Navbar: FunctionComponent<Props> = ({
                                               selectedDesign,
                                               setSelectedDesign
                                           }: Props) => {
+
+    const {t} = useTranslation();
 
     const setNewSelectedFormat = (format: string) => {
         setSelectedFormat(format);
@@ -43,32 +46,32 @@ const Navbar: FunctionComponent<Props> = ({
         <BSNavbar fixed={'top'} bg="dark" variant="dark">
             <BSNavbar.Brand href="/">
                 <img
-                    alt="A world emoji, the logo of this application."
+                    alt={t('nav.logo_alt')}
                     src={Favicon}
                     width="30"
                     height="30"
                     className="d-inline-block align-top"
-                />{' '}PDS Viewer
+                />{' ' + t('nav.app_name')}
             </BSNavbar.Brand>
             <BSNavbar.Toggle aria-controls="basic-navbar-nav"/>
             <BSNavbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     <Nav.Item>
-                        <NavLink className={'nav-link'} to={'/data/'}>Data</NavLink>
+                        <NavLink className={'nav-link'} to={'/data/'}>{t('nav.data')}</NavLink>
                     </Nav.Item>
                     <Nav.Item>
-                        <NavLink className={'nav-link'} to={'/help'}>Help</NavLink>
+                        <NavLink className={'nav-link'} to={'/help'}>{t('nav.help')}</NavLink>
                     </Nav.Item>
                 </Nav>
                 <Nav className="justify-content-end">
                     <NavDropdown title={uiModeDropdownTitle} id="basic-nav-dropdown">
-                        <NavDropdown.Item onClick={() => setNewSelectedDesign("bright")}><SunIcon/>{' Light'}</NavDropdown.Item>
-                        <NavDropdown.Item onClick={() => setNewSelectedDesign("dark")}><MoonIcon/>{' Dark'}</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => setNewSelectedDesign("bright")}><SunIcon/>{' ' + t('nav.light')}</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => setNewSelectedDesign("dark")}><MoonIcon/>{' ' + t('nav.dark')}</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title={formatDropdownTitle} id="basic-nav-dropdown">
-                        <NavDropdown.Item onClick={() => setNewSelectedFormat("png")}>PNG</NavDropdown.Item>
-                        <NavDropdown.Item onClick={() => setNewSelectedFormat("gif")}>GIF</NavDropdown.Item>
-                        <NavDropdown.Item onClick={() => setNewSelectedFormat("jpg")}>JPG</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => setNewSelectedFormat("png")}>{t('nav.format.png')}</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => setNewSelectedFormat("gif")}>{t('nav.format.gif')}</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => setNewSelectedFormat("jpg")}>{t('nav.format.jpg')}</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
             </BSNavbar.Collapse>

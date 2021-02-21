@@ -4,6 +4,8 @@ import {API_URL} from "../../App";
 import {Alert} from "react-bootstrap";
 import {PDSImage} from "../../types/PDSImage";
 import Toolbar from "./Toolbar";
+import {useTranslation} from "react-i18next";
+import {TFunction} from "i18next";
 
 type Props = {
     fileContent: PDSImage,
@@ -25,12 +27,13 @@ const ImageFile: FunctionComponent<Props> = ({
 
     const imagePath = fileContent.w10n.find(a => a.name === 'path').value.toString().replace('/w10n', '');
     const imageIdentifier = fileContent.w10n.find(a => a.name === 'identifier').value.toString();
-    const path = imagePath + imageIdentifier
+    const path = imagePath + imageIdentifier;
 
     const imageUrl = API_URL + path + '/0/image[]?output=' + selectedFormat;
 
     const [imageBase64, setImageBase64] = useState(undefined);
     const [error, setError] = useState(false);
+    const {t} = useTranslation();
 
     useEffect(() => {
         const cached = getCachedImage(path);
@@ -39,16 +42,20 @@ const ImageFile: FunctionComponent<Props> = ({
             setImageCached(true);
             setError(false);
         } else {
-            refreshCache(setImageBase64, setError, setImageCached, imageUrl, path);
+            refreshCache(setImageBase64, setError, setImageCached, imageUrl, path, t);
         }
     }, [fileContent]);
 
     if (error) {
         return (
             <Alert variant={'danger'}>
-                <p>There was an error fetching the image.</p>
-                <p>You can try <a target={'_blank'} rel={'noopener nofollow noreferrer'} href={imageUrl}>downloading it
-                    manually</a>.</p>
+                <p>{t('file.image.error.fetching.1')}</p>
+                <p>
+                    {t('file.image.error.fetching.2')}
+                    <a target={'_blank'} rel={'noopener nofollow noreferrer'} href={imageUrl}>
+                        {t('file.image.error.fetching.3')}
+                    </a>.
+                </p>
             </Alert>
         );
     }
@@ -84,6 +91,7 @@ const refreshCache = (
     setCached: (cached: boolean) => void,
     imageUrl: string,
     path: string,
+    t: TFunction,
 ) => {
     setImageBase64(undefined);
     setError(false);
@@ -91,7 +99,7 @@ const refreshCache = (
         .then(function (response) {
             if (response.status !== 200) {
                 setError(true);
-                throw new Error("Bad response from server for image: '" + path + "'!");
+                throw new Error(t('file.image.bad_response') + path + "'!");
             }
 
             return response.blob()

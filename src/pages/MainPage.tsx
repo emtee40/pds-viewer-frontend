@@ -1,15 +1,19 @@
 import React from 'react';
 import {Button, Container} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
-const MainPage = () => (
-    <Container>
-        <h2>Welcome!</h2>
-        <p>This is a viewer for the Planetary Data System of NASA JPL.</p>
-        <Button as={Link} to={'/data/'} variant="outline-primary">
-            Start digging...
-        </Button>
-    </Container>
-);
+const MainPage = () => {
+    const { t } = useTranslation();
+    return (
+        <Container>
+            <h2>{t('main.welcome')}</h2>
+            <p>{t('main.intro')}</p>
+            <Button as={Link} to={'/data/'} variant="outline-primary">
+                {t('main.start_digging')}
+            </Button>
+        </Container>
+    );
+}
 
 export default MainPage;

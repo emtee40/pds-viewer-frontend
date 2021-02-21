@@ -2,6 +2,7 @@ import React, {FunctionComponent, useEffect, useState} from 'react';
 import {Row} from "react-bootstrap";
 import {FileDirectoryIcon, FileMediaIcon} from "@primer/octicons-react";
 import {useLocation} from "react-router";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     cached: boolean,
@@ -13,32 +14,33 @@ const Footer: FunctionComponent<Props> = ({cached, imageCached}: Props) => {
     const [pathName, setPathName] = useState('');
 
     const location = useLocation();
+    const {t} = useTranslation();
 
     useEffect(() => {
         setLocalStorageSize(bytesToHumanReadable(new Blob(Object.values(localStorage)).size));
 
         let pathName = location.pathname.replace(/\/data/, '');
-        if(pathName.length === 0) {
+        if (pathName.length === 0) {
             pathName = '/';
         }
         setPathName(pathName);
     }, [location]);
 
-    const directoryIcon = <FileDirectoryIcon size={12} verticalAlign={"text-top"} />;
-    const imageIcon = <FileMediaIcon size={12} verticalAlign={"text-top"} />;
+    const directoryIcon = <FileDirectoryIcon size={12} verticalAlign={"text-top"}/>;
+    const imageIcon = <FileMediaIcon size={12} verticalAlign={"text-top"}/>;
 
     return (
         <Row className={'footer'}>
             <div className="left-side">
-                <span>Cache: {localStorageSize}</span>
+                <span>{t('footer.cache') + localStorageSize}</span>
             </div>
             <div className="middle">
                 {pathName}
             </div>
             <div className="right-side">
-                {directoryIcon}{' '}{(cached ? ' Cached' : ' From API')}
+                {directoryIcon}{' '}{(cached ? t('footer.cached') : t('footer.from_api'))}
                 {' | '}
-                {imageIcon}{' '}{(imageCached ? ' Cached' : ' From API')}
+                {imageIcon}{' '}{(imageCached ? t('footer.cached') : t('footer.from_api'))}
             </div>
         </Row>
     );

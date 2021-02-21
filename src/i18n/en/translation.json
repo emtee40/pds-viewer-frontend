@@ -1,0 +1,80 @@
+{
+    "header": {
+        "page_not_found": "Page not found!"
+    },
+    "main": {
+        "welcome": "Welcome!",
+        "intro": "This is a viewer for the Planetary Data System of NASA JPL.",
+        "start_digging": "Start digging…"
+    },
+    "help": {
+        "about": "About",
+        "about_text_1": "This application is a an explorer-like application intended for browsing the ",
+        "about_text_2": "Planetary Data System",
+        "about_text_3": " of NASA JPL.",
+        "about_text_4": "Browsing the PDS is also possible by just using a web browser but due to the responses taking relatively long, it's not very comfortable.",
+        "about_text_5": "This application aims to solve this by caching each response which makes revisiting folders and images much faster because there is actually no request to the PDS unless the requested resource is not yet cached, or the \"reload\" button is pressed."
+    },
+    "data": {
+        "pds_root": "PDS Root"
+    },
+    "nav": {
+        "logo_alt": "A world emoji, the logo of this application.",
+        "app_name": "PDS Viewer",
+        "data": "Data",
+        "help": "Help",
+        "light": "Light",
+        "dark": "Dark",
+        "format": {
+            "png": "PNG",
+            "gif": "GIF",
+            "jpg": "JPG"
+        }
+    },
+    "loader": {
+        "loading_text": "Fetching PDS data..."
+    },
+    "footer": {
+        "cache": "Cache: ",
+        "cached": " Cached",
+        "from_api": " From API"
+    },
+    "folder": {
+        "error_fetching": "There was an error fetching data from the API!",
+        "no_content": "This folder has no content!",
+        "no_selection": "No file selected...",
+        "bad_response_for_path": "Bad response from server for path: '"
+    },
+    "file": {
+        "error_parsing_json": "Error parsing as JSON, using text...",
+        "error_loading_file": "There was an error loading the requested file!",
+        "try_download": {
+            "1": "You can try ",
+            "2": "opening the file directly"
+        },
+        "type_not_supported": {
+            "1": "The file type ",
+            "2": " is currently not supported!",
+            "3": "You can still ",
+            "4": "download the file"
+        },
+        "text": {
+            "invalid_file_type": "Invalid file type! Expected: 'text/plain', got: '"
+        },
+        "image": {
+            "error_fetching": {
+                "1": "There was an error fetching the image.",
+                "2": "You can try ",
+                "3": "downloading it manually"
+            },
+            "bad_response": "Bad response from server for image: '"
+        }
+    },
+    "toolbar": {
+        "not_an_image": "Not an image!",
+        "toolbar": "Toolbar",
+        "go_to_parent_folder": "Go To Parent Folder",
+        "refresh": "Refresh Folder Contents",
+        "download_image": "Download Image"
+    }
+}

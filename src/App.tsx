@@ -2,14 +2,28 @@ import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import {Route, Switch} from 'react-router';
 import {BrowserRouter} from "react-router-dom";
+import {initReactI18next, useTranslation} from 'react-i18next';
 
 import MainPage from "./pages/MainPage";
 import DataPage from "./pages/DataPage";
 import HelpPage from "./pages/HelpPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import translation from "./i18n/en/translation.json";
+import i18n from "i18next";
 
 export const API_URL = "https://pds-imaging.jpl.nasa.gov/w10n/";
+
+export const resources = {
+    en: {
+        translation,
+    },
+} as const;
+
+i18n.use(initReactI18next).init({
+    lng: 'en',
+    resources,
+});
 
 const App = () => {
 
@@ -25,6 +39,8 @@ const App = () => {
     const [selectedDesign, setSelectedDesign] = useState(() => localStorage.getItem('selectedDesign') || getInitialTheme());
     const [cached, setCached] = useState(false);
     const [imageCached, setImageCached] = useState(false);
+
+    const { t } = useTranslation();
 
     if (selectedDesign === 'dark') {
         document.body.classList.add('app-theme-dark');
@@ -54,7 +70,7 @@ const App = () => {
                 <Route path={'/data/:path'}>
                     <DataPage imageCached={imageCached} setImageCached={setImageCached} cached={cached} setCached={setCached} selectedFormat={selectedFormat}/>
                 </Route>
-                <Route render={() => <h1>Page not found</h1>}/>
+                <Route render={() => <h1>{t('header.page_not_found')}</h1>}/>
             </Switch>
             <Footer imageCached={imageCached} cached={cached} />
         </>
