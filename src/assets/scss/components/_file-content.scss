@@ -10,14 +10,23 @@ div.file-content {
   }
 
   div.toolbar {
+    width: 100%;
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 8px;
   }
 
-  img.image-content {
-    max-width: 90%;
+  div.image {
+    width: 100%;
+    max-height: 80vh;
+    overflow: scroll;
+
+    img.image-content {
+      max-width: 100%;
+      width: 100%;
+      height: auto;
+    }
   }
 
   pre.text-content {
@@ -26,5 +35,4 @@ div.file-content {
     border: 1px solid #aaa;
     border-radius: 5px;
   }
-
 }

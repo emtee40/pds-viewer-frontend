@@ -13,7 +13,12 @@ type Props = {
     navigateToParent: () => void,
 }
 
-const ImageFile: FunctionComponent<Props> = ({fileContent, selectedFormat, refreshFolderCache, navigateToParent}: Props) => {
+const ImageFile: FunctionComponent<Props> = ({
+                                                 fileContent,
+                                                 selectedFormat,
+                                                 refreshFolderCache,
+                                                 navigateToParent
+                                             }: Props) => {
 
     const imagePath = fileContent.w10n.find(a => a.name === 'path').value.toString().replace('/w10n', '');
     const imageIdentifier = fileContent.w10n.find(a => a.name === 'identifier').value.toString();
@@ -71,7 +76,9 @@ const ImageFile: FunctionComponent<Props> = ({fileContent, selectedFormat, refre
                 imageBase64: imageBase64,
                 selectedFormat: selectedFormat,
             }}/>
-            <img alt={getFileNameFromPath()} src={imageBase64} className={'image-content'}/>
+            <div className="image">
+                <img alt={getFileNameFromPath()} src={imageBase64} className={'image-content'}/>
+            </div>
         </div>
     );
 };

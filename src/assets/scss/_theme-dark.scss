@@ -47,17 +47,21 @@ body.app-theme-dark {
     }
   }
 
-  .list-group-item {
-    background-color: transparent;
-    color: $light;
-    border-color: darken($light, 52);
+  .list-group {
+    border-color: darken($light, 52) !important;
 
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
+    .list-group-item {
+      background-color: transparent;
+      color: $light;
+      border-color: darken($light, 52);
 
-    small.text-muted {
-      color: darken($light, 20) !important;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      small.text-muted {
+        color: darken($light, 20) !important;
+      }
     }
   }
 }

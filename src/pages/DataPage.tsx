@@ -1,8 +1,9 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import {useLocation} from "react-router";
 import {useHistory} from "react-router-dom";
-import {Breadcrumb, Container} from "react-bootstrap";
+import {Breadcrumb, Container, Row} from "react-bootstrap";
 import FolderContent from "../components/FolderContent";
+import Footer from "../components/Footer";
 
 type Props = {
     selectedFormat: string,

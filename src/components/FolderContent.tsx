@@ -71,7 +71,11 @@ const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigate
     }
 
     if (!folderContent) {
-        return (<Loader/>);
+        return (
+            <Row className={'content'}>
+                <Loader/>
+            </Row>
+        );
     }
 
     if (!folderContent.nodes && !folderContent.leaves) {
@@ -80,6 +84,11 @@ const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigate
                 This folder has no content!
             </Alert>
         );
+    }
+
+    const navigateToParentFolder = () => {
+        setActiveKey('#no-selection');
+        navigateToParent();
     }
 
     const nodeItems = folderContent.nodes.map((node, idx) =>
@@ -96,16 +105,16 @@ const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigate
                              selectedFormat={selectedFormat}
                              leaf={leaf}
                              refreshFolderCache={refreshCache}
-                             navigateToParent={navigateToParent}/>
+                             navigateToParent={navigateToParentFolder}/>
             </Tab.Pane>
         );
     });
 
     return (
         <Tab.Container mountOnEnter={true} id="folder-content-tabs" defaultActiveKey={activeKey}>
-            <Row>
+            <Row className={'content'}>
                 <Col lg={4}>
-                    <ListGroup>
+                    <ListGroup className={'folder-content-list'}>
                         {nodeItems}
                         {nodeLeaves}
                     </ListGroup>

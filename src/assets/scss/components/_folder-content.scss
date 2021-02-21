@@ -2,7 +2,7 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
 
-@include media-breakpoint-down(lg) {
+@include media-breakpoint-down(md) {
   .tab-content {
     .tab-pane.show {
       margin-top: 16px;
@@ -10,33 +10,56 @@
   }
 }
 
-a.folder-content-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.col-lg-4 {
+  max-height: 100%;
+  padding-bottom: 8px;
 
-  .file-icon {
-    margin-right: 8px;
-  }
+  div.folder-content-list {
+    max-height: 100%;
+    overflow: scroll;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 
-  span.name {
-    max-width: 50%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
 
-  span.details {
-    max-width: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+    a.folder-content-item.list-group-item {
+      display: flex;
+      flex-direction: column;
+      border-left: none;
+      border-right: none;
 
-  &.active {
-    small.text-muted {
-      color: #fff !important;
+      &:first-child {
+        border-top: none;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .file-icon {
+        margin-right: 8px;
+      }
+
+      span.name {
+        display: block;
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      span.details {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+      }
+
+      &.active {
+        small.text-muted {
+          color: #fff !important;
+        }
+      }
     }
   }
 }

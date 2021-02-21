@@ -6,8 +6,11 @@
 @import "theme-dark";
 
 @import "components/loader";
+@import "components/footer";
 @import "components/folder-content";
 @import "components/file-content";
+
+@import "layout";
 
 button.btn:hover a {
   color: #fff;

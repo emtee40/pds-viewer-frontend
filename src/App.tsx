@@ -7,6 +7,7 @@ import MainPage from "./pages/MainPage";
 import DataPage from "./pages/DataPage";
 import HelpPage from "./pages/HelpPage";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 export const API_URL = "https://pds-imaging.jpl.nasa.gov/w10n/";
 
@@ -53,6 +54,7 @@ const App = () => {
                 </Route>
                 <Route render={() => <h1>Page not found</h1>}/>
             </Switch>
+            <Footer />
         </>
     );
 };

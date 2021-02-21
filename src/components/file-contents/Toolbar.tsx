@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {Button, ButtonGroup, ButtonToolbar} from "react-bootstrap";
-import {DownloadIcon, ReplyIcon, SyncIcon} from "@primer/octicons-react";
+import {ChevronLeftIcon, DownloadIcon, ReplyIcon, SyncIcon} from "@primer/octicons-react";
 
 type FileImageProps = {
     selectedFormat: string,
@@ -32,7 +32,7 @@ const Toolbar: FunctionComponent<Props> = ({imageProps, refreshFolderCache, navi
         <ButtonToolbar className={'toolbar'} aria-label="Toolbar">
             <ButtonGroup aria-label="Folder Actions">
                 <Button aria-label={'Go To Parent Folder'} variant={'outline-secondary'} onClick={navigateToParent}>
-                    <ReplyIcon/>
+                    <ChevronLeftIcon />
                 </Button>
                 <Button aria-label={'Refresh Folder Contents'} variant={'outline-secondary'}
                         onClick={refreshFolderCache}>
