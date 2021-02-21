@@ -19,7 +19,7 @@ const ImageFile: FunctionComponent<Props> = ({fileContent, selectedFormat, refre
     const imageIdentifier = fileContent.w10n.find(a => a.name === 'identifier').value.toString();
     const path = imagePath + imageIdentifier
 
-    const imageUrl = API_URL + path + '[]?output=' + selectedFormat;
+    const imageUrl = API_URL + path + '/0/image[]?output=' + selectedFormat;
 
     const [imageBase64, setImageBase64] = useState(undefined);
     const [error, setError] = useState(false);

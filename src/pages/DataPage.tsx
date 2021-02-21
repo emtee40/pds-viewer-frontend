@@ -55,8 +55,7 @@ const DataPage: FunctionComponent<Props> = ({selectedFormat}: Props) => {
                 <Breadcrumb.Item href={'/data/'} active={isOnPDSRoot()}>PDS Root</Breadcrumb.Item>
                 {breadcrumbs}
             </Breadcrumb>
-            <FolderContent navigateToParent={navigateToParent} selectedFormat={selectedFormat} activeKey={location.hash}
-                           path={currentPath}/>
+            <FolderContent navigateToParent={navigateToParent} selectedFormat={selectedFormat} path={currentPath}/>
         </Container>
     );
 }

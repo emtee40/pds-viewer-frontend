@@ -3,11 +3,12 @@ import {ListGroup, OverlayTrigger, Tooltip} from "react-bootstrap";
 import {FileDirectoryIcon} from "@primer/octicons-react";
 import {PDSNode} from "../../types/PDSNode";
 import {buildHref} from "../FolderContent";
+import {Link} from "react-router-dom";
 
 type Props = {
     node: PDSNode,
     idx: number,
-    path: string
+    path: string,
 };
 
 const NodeItem: FunctionComponent<Props> = ({node, idx, path}: Props) => {
@@ -20,8 +21,8 @@ const NodeItem: FunctionComponent<Props> = ({node, idx, path}: Props) => {
                 <Tooltip id={'node-' + idx}>{node.name}</Tooltip>
             }
         >
-            <ListGroup.Item className={'folder-content-item'} key={idx} action
-                            href={buildHref(path, node)}>
+            <ListGroup.Item as={Link} className={'folder-content-item'} key={idx} action
+                            to={buildHref(path, node)}>
                 <span className={'name'}>
                     <FileDirectoryIcon className={'file-icon'} verticalAlign={'text-top'}/>{' '}
                     <span>{node.name}</span>

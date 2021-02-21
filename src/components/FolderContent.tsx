@@ -12,12 +12,11 @@ import Toolbar from "./file-contents/Toolbar";
 
 type Props = {
     path: string,
-    activeKey?: string,
     selectedFormat: string,
     navigateToParent: () => void,
 }
 
-const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedFormat, navigateToParent}: Props) => {
+const FolderContent: FunctionComponent<Props> = ({path, selectedFormat, navigateToParent}: Props) => {
 
     const getCachedPath = (): PDSNode => {
         const cachedJson = localStorage.getItem('cache-' + (path === '' ? '/' : path));
@@ -31,6 +30,7 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
     const [folderContent, setFolderContent] = useState(undefined);
     const [error, setError] = useState(false);
     const [cached, setCached] = useState(false);
+    const [activeKey, setActiveKey] = useState('#no-selection');
 
     const apiUrl = API_URL + (path === '/' ? '' : path) + '/?output=json';
 
@@ -86,12 +86,11 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
         (<NodeItem node={node} key={idx} idx={idx} path={path}/>));
 
     const nodeLeaves = folderContent.leaves.map((leaf, idx) =>
-        (<NodeLeaf path={path} leaf={leaf} idx={idx} key={idx}/>));
+        (<NodeLeaf activeKey={activeKey} setActiveKey={setActiveKey} leaf={leaf} idx={idx} key={idx}/>));
 
     const nodeLeafContents = folderContent.leaves.map((leaf, idx) => {
-        const contentKey = '#' + leaf.name;
         return (
-            <Tab.Pane key={idx} eventKey={contentKey}>
+            <Tab.Pane key={idx} active={activeKey === leaf.name}>
                 <FileContent folderContent={folderContent}
                              path={path}
                              selectedFormat={selectedFormat}
@@ -103,7 +102,7 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
     });
 
     return (
-        <Tab.Container mountOnEnter={true} id="folder-content-tabs" defaultActiveKey={activeKey || '#no-selection'}>
+        <Tab.Container mountOnEnter={true} id="folder-content-tabs" defaultActiveKey={activeKey}>
             <Row>
                 <Col lg={4}>
                     <ListGroup>
@@ -113,7 +112,7 @@ const FolderContent: FunctionComponent<Props> = ({path, activeKey, selectedForma
                 </Col>
                 <Col lg={8}>
                     <Tab.Content>
-                        <Tab.Pane eventKey="#no-selection">
+                        <Tab.Pane eventKey="#no-selection" active={activeKey === '#no-selection'}>
                             <div className="file-content">
                                 <Toolbar navigateToParent={navigateToParent} refreshFolderCache={refreshCache}
                                          imageProps={undefined}/>

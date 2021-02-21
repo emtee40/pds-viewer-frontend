@@ -85,7 +85,7 @@ const FileContent: FunctionComponent<Props> = ({
 
     if (fileContent.w10n) {
         const typeAttr = fileContent.w10n.find(e => e.name === 'type');
-        if (isImage(typeAttr) && metadata) {
+        if (isImage(typeAttr)) {
             return (<ImageFile navigateToParent={navigateToParent} refreshFolderCache={refreshFolderCache}
                                fileContent={fileContent} selectedFormat={selectedFormat}/>);
         }
