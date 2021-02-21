@@ -56,7 +56,9 @@ const ImageFile: FunctionComponent<Props> = ({fileContent, selectedFormat}: Prop
 
     const getFileNameFromPath = () => {
         const splitPath = imagePath.split('/');
-        return splitPath[splitPath.length - 1];
+        const originalFileName = splitPath[splitPath.length - 1];
+        const nameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.'))
+        return nameWithoutExtension + "." + selectedFormat.toUpperCase();
     };
 
     const downloadImage = (): void => {
