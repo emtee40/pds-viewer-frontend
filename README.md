@@ -2,6 +2,8 @@
 
 This is a frontend for the Planetary Data System of NASA JPL.
 
+![Screenshot of the application showing an image made by Cassini.](./screenshot.png)
+
 # Usage
 
 ## Desktop App
