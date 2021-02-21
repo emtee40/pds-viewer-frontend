@@ -100,15 +100,15 @@ protocol.registerSchemesAsPrivileged([{
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 900,
-    height: 680
+    width: 1200,
+    height: 800
   });
 
   mainWindow.loadURL(
     isDev
       ? "http://localhost:1234"
       : `pds-viewer://serve/`
-  ).then(r => {
+  ).then(() => {
     isDev && mainWindow.openDevTools();
   });
   mainWindow.on("closed", () => (mainWindow = null));
