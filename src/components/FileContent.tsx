@@ -76,13 +76,7 @@ const FileContent: FunctionComponent<Props> = ({path, leaf, selectedFormat, fold
     if (fileContent.w10n) {
         const typeAttr = fileContent.w10n.find(e => e.name === 'type');
         if (isImage(typeAttr) && metadata) {
-            if (Array.isArray(metadata)) {
-                const alt = getImageAlt(metadata, path);
-                return (<ImageFile selectedFormat={selectedFormat} alt={alt} path={filePath}/>);
-            } else {
-                console.log(metadata);
-                return (<ImageFile selectedFormat={selectedFormat} alt={filePath} path={filePath}/>);
-            }
+            return (<ImageFile fileContent={fileContent} selectedFormat={selectedFormat}/>);
         }
     }
 
@@ -97,18 +91,6 @@ const FileContent: FunctionComponent<Props> = ({path, leaf, selectedFormat, fold
 
 export default FileContent;
 
-const isImage = (typeAttr: PDSAttribute): boolean => {
-    return (typeAttr.value === 'imageio.vicario')
-        || (typeAttr.value === 'imageio');
-}
-
-const getImageAlt = (metadata, path: string): string => {
-    const identificationData = metadata.find(d => d.COMMENT && d.COMMENT.find(c => c === '/* IDENTIFICATION DATA ELEMENTS */'));
-    if (identificationData) {
-        return identificationData.INSTRUMENT_NAME + ' (' +
-            identificationData.MISSION_NAME + ', ' +
-            identificationData.LOCAL_MEAN_SOLAR_TIME + ')';
-    } else {
-        return path; // fallback
-    }
+export const isImage = (typeAttr: PDSAttribute): boolean => {
+    return typeAttr.value.toString().startsWith('imageio');
 }

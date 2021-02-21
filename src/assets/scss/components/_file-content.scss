@@ -1,5 +1,18 @@
-img.image-content {
+
+div.image-file {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
   max-width: 100%;
+
+  img.image-content {
+    max-width: 90%;
+  }
+
+  #image-actions {
+    margin-left: 8px;
+  }
 }
 
 pre.text-content {

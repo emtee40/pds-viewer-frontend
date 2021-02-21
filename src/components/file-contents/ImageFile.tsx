@@ -1,15 +1,20 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import Loader from "../Loader";
 import {API_URL} from "../../App";
-import {Alert} from "react-bootstrap";
+import {Alert, Dropdown} from "react-bootstrap";
+import {GearIcon} from "@primer/octicons-react";
+import {PDSImage} from "../../types/PDSImage";
 
 type Props = {
-    path: string,
-    alt: string,
+    fileContent: PDSImage,
     selectedFormat: string,
 }
 
-const ImageFile: FunctionComponent<Props> = ({path, alt, selectedFormat}: Props) => {
+const ImageFile: FunctionComponent<Props> = ({fileContent, selectedFormat}: Props) => {
+
+    const imagePath = fileContent.w10n.find(a => a.name === 'path').value.toString().replace('/w10n', '');
+    const imageIdentifier = fileContent.w10n.find(a => a.name === 'identifier').value.toString();
+    const path = imagePath + imageIdentifier
 
     const imageUrl = API_URL + path + '[]?output=' + selectedFormat;
 
@@ -49,8 +54,32 @@ const ImageFile: FunctionComponent<Props> = ({path, alt, selectedFormat}: Props)
         return (<Loader/>);
     }
 
+    const getFileNameFromPath = () => {
+        const splitPath = imagePath.split('/');
+        return splitPath[splitPath.length - 1];
+    };
+
+    const downloadImage = (): void => {
+        const linkSource = 'data:image/' + selectedFormat + ';base64' + imageBase64;
+        const downloadLink = document.createElement("a");
+        downloadLink.href = linkSource;
+        downloadLink.download = getFileNameFromPath();
+        downloadLink.click();
+    };
+
     return (
-        <img alt={alt} src={imageBase64} className={'image-content'}/>
+        <div className={'image-file'}>
+            <img alt={getFileNameFromPath()} src={imageBase64} className={'image-content'}/>
+            <Dropdown>
+                <Dropdown.Toggle variant="outline-secondary" id="image-actions">
+                    <GearIcon verticalAlign={"text-top"}/>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={downloadImage}>Download</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+        </div>
     );
 };
 
