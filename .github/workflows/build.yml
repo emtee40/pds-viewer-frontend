@@ -52,7 +52,7 @@ jobs:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 with:
                     tag_name: ${{ github.ref }}
-                    release_name: ${{ github.ref }} Linux
+                    release_name: ${{ github.ref }} ${{ matrix.os }}
                     draft: true
             -   name: Upload release asset
                 if: startsWith(github.ref, 'refs/tags/v')
