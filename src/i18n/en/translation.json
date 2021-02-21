@@ -32,7 +32,7 @@
         }
     },
     "loader": {
-        "loading_text": "Fetching PDS data..."
+        "loading_text": "Fetching PDS data…"
     },
     "footer": {
         "cache": "Cache: ",
@@ -42,11 +42,11 @@
     "folder": {
         "error_fetching": "There was an error fetching data from the API!",
         "no_content": "This folder has no content!",
-        "no_selection": "No file selected...",
+        "no_selection": "No file selected…",
         "bad_response_for_path": "Bad response from server for path: '"
     },
     "file": {
-        "error_parsing_json": "Error parsing as JSON, using text...",
+        "error_parsing_json": "Error parsing as JSON, using text…",
         "error_loading_file": "There was an error loading the requested file!",
         "try_download": {
             "1": "You can try ",
