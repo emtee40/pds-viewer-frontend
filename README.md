@@ -19,3 +19,7 @@ This is a frontend for the Planetary Data System of NASA JPL.
 2. `yarn install`
 3. `yarn react:build`
 4. The files will be in `/dist`
+
+# Disclaimer
+
+This tool and its authors are not affiliated or endorsed by NASA. 
