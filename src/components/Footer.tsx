@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {Row} from "react-bootstrap";
-import {FileDirectoryIcon, FileMediaIcon} from "@primer/octicons-react";
+import {Button, Row} from "react-bootstrap";
+import {FileDirectoryIcon, FileMediaIcon, TrashIcon} from "@primer/octicons-react";
 import {useLocation} from "react-router";
 import {useTranslation} from "react-i18next";
 
@@ -16,7 +16,7 @@ const Footer: FunctionComponent<Props> = ({cached, imageCached}: Props) => {
     const location = useLocation();
     const {t} = useTranslation();
 
-    useEffect(() => {
+    function updateValues() {
         setLocalStorageSize(bytesToHumanReadable(new Blob(Object.values(localStorage)).size));
 
         let pathName = location.pathname.replace(/\/data/, '');
@@ -24,15 +24,29 @@ const Footer: FunctionComponent<Props> = ({cached, imageCached}: Props) => {
             pathName = '/';
         }
         setPathName(pathName);
+    }
+
+    useEffect(() => {
+        updateValues();
     }, [location]);
 
     const directoryIcon = <FileDirectoryIcon size={12} verticalAlign={"text-top"}/>;
     const imageIcon = <FileMediaIcon size={12} verticalAlign={"text-top"}/>;
 
+    const emptyCache = () => {
+        window.localStorage.clear();
+        updateValues();
+        window.location.reload();
+    };
+
     return (
         <Row className={'footer'}>
             <div className="left-side">
                 <span>{t('footer.cache') + localStorageSize}</span>
+                {' | '}
+                <span onClick={emptyCache}>
+                    <TrashIcon className={'footer-btn'} size={12} verticalAlign={'text-top'} aria-label={t('footer.empty_cache')}/>
+                </span>
             </div>
             <div className="middle">
                 {pathName}

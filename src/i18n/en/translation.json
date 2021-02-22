@@ -36,8 +36,9 @@
     },
     "footer": {
         "cache": "Cache: ",
-        "cached": " Cached",
-        "from_api": " From API"
+        "cached": " Cache",
+        "from_api": " API",
+        "empty_cache": "Empty Cache"
     },
     "folder": {
         "error_fetching": "There was an error fetching data from the API!",
