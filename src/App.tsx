@@ -39,6 +39,7 @@ const App = () => {
     const [selectedDesign, setSelectedDesign] = useState(() => localStorage.getItem('selectedDesign') || getInitialTheme());
     const [cached, setCached] = useState(false);
     const [imageCached, setImageCached] = useState(false);
+    const [selectedFile, setSelectedFile] = useState('#no-selection');
 
     const { t } = useTranslation();
 
@@ -65,14 +66,14 @@ const App = () => {
                     <HelpPage/>
                 </Route>
                 <Route exact path={'/data'}>
-                    <DataPage imageCached={imageCached} setImageCached={setImageCached} cached={cached} setCached={setCached} selectedFormat={selectedFormat}/>
+                    <DataPage selectedFile={selectedFile} setSelectedFile={setSelectedFile} imageCached={imageCached} setImageCached={setImageCached} cached={cached} setCached={setCached} selectedFormat={selectedFormat}/>
                 </Route>
                 <Route path={'/data/:path'}>
-                    <DataPage imageCached={imageCached} setImageCached={setImageCached} cached={cached} setCached={setCached} selectedFormat={selectedFormat}/>
+                    <DataPage selectedFile={selectedFile} setSelectedFile={setSelectedFile} imageCached={imageCached} setImageCached={setImageCached} cached={cached} setCached={setCached} selectedFormat={selectedFormat}/>
                 </Route>
                 <Route render={() => <h1>{t('header.page_not_found')}</h1>}/>
             </Switch>
-            <Footer imageCached={imageCached} cached={cached} />
+            <Footer selectedFile={selectedFile} imageCached={imageCached} cached={cached} />
         </>
     );
 };

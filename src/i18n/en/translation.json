@@ -38,7 +38,8 @@
         "cache": "Cache: ",
         "cached": " Cache",
         "from_api": " API",
-        "empty_cache": "Empty Cache"
+        "empty_cache": "Empty Cache",
+        "no_selection": "no selection"
     },
     "folder": {
         "error_fetching": "There was an error fetching data from the API!",

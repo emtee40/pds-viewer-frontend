@@ -11,9 +11,19 @@ type Props = {
     setCached: (cached: boolean) => void,
     imageCached: boolean,
     setImageCached: (imageCached: boolean) => void,
+    selectedFile: string,
+    setSelectedFile: (file: string) => void,
 }
 
-const DataPage: FunctionComponent<Props> = ({selectedFormat, cached, setCached, imageCached, setImageCached}: Props) => {
+const DataPage: FunctionComponent<Props> = ({
+                                                selectedFormat,
+                                                cached,
+                                                setCached,
+                                                imageCached,
+                                                setImageCached,
+                                                selectedFile,
+                                                setSelectedFile
+                                            }: Props) => {
     const location = useLocation();
     const history = useHistory();
     const {t} = useTranslation();
@@ -22,7 +32,7 @@ const DataPage: FunctionComponent<Props> = ({selectedFormat, cached, setCached, 
 
     useEffect(() => {
         let tempPath = location.pathname.replace(/\/data/, '');
-        if(tempPath.startsWith("/")) {
+        if (tempPath.startsWith("/")) {
             tempPath = tempPath.substring(1);
         }
         setCurrentPath(tempPath);
@@ -61,7 +71,9 @@ const DataPage: FunctionComponent<Props> = ({selectedFormat, cached, setCached, 
                 <Breadcrumb.Item href={'/data/'} active={isOnPDSRoot()}>{t('data.pds_root')}</Breadcrumb.Item>
                 {breadcrumbs}
             </Breadcrumb>
-            <FolderContent imageCached={imageCached} setImageCached={setImageCached} cached={cached} setCached={setCached} navigateToParent={navigateToParent} selectedFormat={selectedFormat} path={currentPath}/>
+            <FolderContent activeKey={selectedFile} setActiveKey={setSelectedFile} imageCached={imageCached}
+                           setImageCached={setImageCached} cached={cached} setCached={setCached}
+                           navigateToParent={navigateToParent} selectedFormat={selectedFormat} path={currentPath}/>
         </Container>
     );
 }

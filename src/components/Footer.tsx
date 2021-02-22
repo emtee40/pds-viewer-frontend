@@ -7,9 +7,10 @@ import {useTranslation} from "react-i18next";
 type Props = {
     cached: boolean,
     imageCached: boolean,
+    selectedFile: string,
 }
 
-const Footer: FunctionComponent<Props> = ({cached, imageCached}: Props) => {
+const Footer: FunctionComponent<Props> = ({cached, imageCached, selectedFile}: Props) => {
     const [localStorageSize, setLocalStorageSize] = useState('');
     const [pathName, setPathName] = useState('');
 
@@ -28,7 +29,7 @@ const Footer: FunctionComponent<Props> = ({cached, imageCached}: Props) => {
 
     useEffect(() => {
         updateValues();
-    }, [location]);
+    }, [location, cached, imageCached, selectedFile]);
 
     const directoryIcon = <FileDirectoryIcon size={12} verticalAlign={"text-top"}/>;
     const imageIcon = <FileMediaIcon size={12} verticalAlign={"text-top"}/>;
@@ -45,11 +46,16 @@ const Footer: FunctionComponent<Props> = ({cached, imageCached}: Props) => {
                 <span>{t('footer.cache') + localStorageSize}</span>
                 {' | '}
                 <span onClick={emptyCache}>
-                    <TrashIcon className={'footer-btn'} size={12} verticalAlign={'text-top'} aria-label={t('footer.empty_cache')}/>
+                    <TrashIcon className={'footer-btn'} size={12} verticalAlign={'text-top'}
+                               aria-label={t('footer.empty_cache')}/>
                 </span>
             </div>
             <div className="middle">
-                {pathName}
+                {
+                    pathName + ' (' +
+                    (selectedFile !== '#no-selection' ? selectedFile : t('footer.no_selection'))
+                    + ')'
+                }
             </div>
             <div className="right-side">
                 {directoryIcon}{' '}{(cached ? t('footer.cached') : t('footer.from_api'))}

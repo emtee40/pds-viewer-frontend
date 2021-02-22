@@ -19,6 +19,8 @@ type Props = {
     setCached: (cached: boolean) => void,
     imageCached: boolean,
     setImageCached: (imageCached: boolean) => void,
+    activeKey: string,
+    setActiveKey: (activeKey: string) => void,
 }
 
 const FolderContent: FunctionComponent<Props> = ({
@@ -28,15 +30,16 @@ const FolderContent: FunctionComponent<Props> = ({
                                                      cached,
                                                      setCached,
                                                      imageCached,
-                                                     setImageCached
+                                                     setImageCached,
+                                                     activeKey,
+                                                     setActiveKey
                                                  }: Props) => {
 
     const [folderContent, setFolderContent] = useState(undefined);
-    const [activeKey, setActiveKey] = useState('#no-selection');
     const [error, setError] = useState(false);
     const {t} = useTranslation();
 
-    const apiUrl = API_URL + (path === '/' ? '' : path) + '/?output=json';
+    const apiUrl = API_URL + (path === '/' ? '' : path) + '?output=json';
 
     useEffect(() => {
         const cached = getCachedPath(path);
@@ -93,7 +96,7 @@ const FolderContent: FunctionComponent<Props> = ({
     });
 
     return (
-        <Tab.Container unmountOnExit={true} mountOnEnter={true} id="folder-content-tabs" defaultActiveKey={activeKey}>
+        <Tab.Container mountOnEnter={true} id="folder-content-tabs" defaultActiveKey={activeKey}>
             <Row className={'content'}>
                 <Col lg={4}>
                     <ListGroup className={'folder-content-list'}>

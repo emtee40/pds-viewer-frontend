@@ -44,7 +44,8 @@ const FileContent: FunctionComponent<Props> = ({
     const useJson = (metadata !== undefined) || webifiable;
 
     useEffect(() => {
-        fetch(apiUrl + (useJson ? '/?output=json' : ''))
+        const url = apiUrl + (useJson ? '/?output=json' : '');
+        fetch(url)
             .then(function (response) {
                 if (response.status !== 200) {
                     setError(true);
