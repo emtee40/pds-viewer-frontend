@@ -150,17 +150,21 @@ const refreshCache = (apiUrl: string,
     setFolderContent(undefined);
     setError(false);
     fetch(apiUrl)
-        .then(function (response) {
+        .then(response => {
             if (response.status !== 200) {
                 setError(true);
                 throw new Error(t('folder.bad_response_for_path') + path + "'!");
             }
             return response.json();
         })
-        .then(function (content) {
+        .then(content => {
             setFolderContent(content);
             localStorage.setItem('cache-' + path, JSON.stringify(content));
             setCached(false);
+        })
+        .catch(e => {
+            console.error(e);
+            setError(true);
         });
 }
 
