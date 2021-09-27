@@ -12,7 +12,7 @@ const fs = require('fs')
 const path = require("path");
 const isDev = require("electron-is-dev");
 
-const isMac = process.platform === 'darwin'
+const isMac = process.platform === 'darwin';
 
 const template = [
   ...(isMac ? [{
@@ -101,7 +101,8 @@ protocol.registerSchemesAsPrivileged([{
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
-    height: 800
+    height: 800,
+    webPreferences: {webSecurity: false}
   });
 
   mainWindow.loadURL(
@@ -140,6 +141,12 @@ app.on("ready", () => {
 
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
     details.requestHeaders['User-Agent'] = 'Mozilla/5.0 (compatible; PDS Viewer/' + packageJson.version + ')';
+    details.requestHeaders['Sec-Fetch-Dest'] = undefined;
+    details.requestHeaders['Sec-Fetch-Mode'] = undefined;
+    details.requestHeaders['Sec-Fetch-Site'] = undefined;
+    details.requestHeaders['Origin'] = undefined;
+    details.requestHeaders['Referer'] = undefined;
+
     callback({cancel: false, requestHeaders: details.requestHeaders});
   });
 
